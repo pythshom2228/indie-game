@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.20)
-project(Engine)
+project(Game)
 
 if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE "Debug" CACHE STRING "Choose the type of build" FORCE)
@@ -13,7 +13,7 @@ set(FETCHCONTENT_BASE_DIR "${CMAKE_SOURCE_DIR}/external")
 FetchContent_Declare(
     raylib
     GIT_REPOSITORY "https://github.com/raysan5/raylib.git"
-    GIT_TAG "5.0" 
+    GIT_TAG "5.5" 
 )
 
 FetchContent_MakeAvailable(raylib)
