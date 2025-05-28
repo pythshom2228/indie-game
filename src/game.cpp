@@ -1,7 +1,7 @@
 #include <game.hpp>
 
 Game::Game() :
-    menu(std::make_unique<start_menu>()),
+    menu(std::make_unique<StartMenu>()),
     window_width(800),
     wnidow_height(800),
     font(LoadFont("../resources/BubbleSans-Regular.otf"))
