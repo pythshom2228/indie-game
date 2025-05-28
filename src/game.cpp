@@ -1,6 +1,6 @@
 #include <game.h>
 
-game::game() :
+Game::Game() :
     menu(std::make_unique<start_menu>()),
     window_width(800),
     wnidow_height(800),
@@ -9,7 +9,7 @@ game::game() :
     SetTargetFPS(120);
 }
 
-void game::start() {
+void Game::start() {
     InitWindow(window_width,wnidow_height,"Game");
 
     bool isRunning = false;
@@ -27,7 +27,7 @@ void game::start() {
     CloseWindow();
 }
 
-void game::run() {
+void Game::run() {
     while(1) {
         BeginDrawing();
         ClearBackground(WHITE);
