@@ -7,6 +7,13 @@ endif()
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
 
+set(SOURCES 
+    src/main.cpp
+    src/game.cpp
+    src/game_menu.cpp
+)
+set(RESOURCES_DIR "re")
+
 include(FetchContent)
 set(FETCHCONTENT_BASE_DIR "${CMAKE_SOURCE_DIR}/external")
 
@@ -18,12 +25,11 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(raylib)
 
-add_executable(${PROJECT_NAME}
-    src/main.cpp
-)
+add_executable(${PROJECT_NAME} ${SOURCES})
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     "${CMAKE_SOURCE_DIR}/external"
+    "${CMAKE_SOURCE_DIR}/include"
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE raylib)
@@ -45,3 +51,5 @@ if(UNIX AND NOT APPLE)
         GL pthread dl rt X11
     )
 endif()
+
+file(COPY "${CMAKE_SOURCE_DIR}/resources" DESTINATION ${CMAKE_BINARY_DIR})
