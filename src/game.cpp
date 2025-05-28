@@ -1,4 +1,4 @@
-#include <game.h>
+#include <game.hpp>
 
 Game::Game() :
     menu(std::make_unique<start_menu>()),
