@@ -1,13 +1,13 @@
 #pragma once
 #include <raylib.h>
-#include <game_menu.h>
+#include <game_menu.hpp>
 #include <memory>
-#include <player.h>
+#include <player.hpp>
 
-class game {
+class Game {
 public:
-    game();
-    ~game() = default;
+    Game();
+    ~Game() = default;
     
     void start();
 
@@ -19,6 +19,6 @@ private:
     const size_t window_width;
     const size_t wnidow_height;
     const Font font;
-    std::unique_ptr<game_menu> menu;
-    player m_player;
+    std::unique_ptr<GameMenu> menu;
+    Player m_player;
 };

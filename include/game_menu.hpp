@@ -1,27 +1,27 @@
 #pragma once
 #include <raylib.h>
 
-class game_menu {
+class GameMenu {
 public:
-    game_menu(const Font& font) : game_font(font) {}
+    GameMenu(const Font& font) : game_font(font) {}
     virtual void handleInput();
     virtual void renderMenu();
     const Font& game_font ;
     
-    virtual ~game_menu() {}; 
+    virtual ~GameMenu() {}; 
 };
 
-class start_menu : public game_menu {
+class StartMenu : public GameMenu {
 public:
 
-    start_menu() {}
+
     void handleInput() override;
     void renderMenu() override;
 
 };
 
 
-class pause_menu : public game_menu {
+class PauseMenu : public GameMenu {
 public:
     void handleInput() override;
     void renderMenu() override;
