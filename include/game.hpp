@@ -18,6 +18,7 @@ public:
 private:
 
     void render();
+    void loadWorld(const World& _world);
     void update();
     void pause();
 
