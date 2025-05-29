@@ -5,6 +5,7 @@
 #include <string>
 #include <memory>
 #include <sstream>
+#include <tmxlite/Map.hpp>
 
 #include "player.hpp"
 #include "tile.hpp"

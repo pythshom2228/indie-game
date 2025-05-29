@@ -37,21 +37,7 @@ FetchContent_Declare(
     GIT_TAG "5.5" 
 )
 
-# Загрузка tinyxml2
-FetchContent_Declare(
-    tinyxml2
-    GIT_REPOSITORY "https://github.com/leethomason/tinyxml2.git"
-    GIT_TAG "9.0.0"  # Проверьте актуальную версию
-)
-
-# Загрузка tmxlite
-FetchContent_Declare(
-    tmxlite
-    GIT_REPOSITORY "https://github.com/fallahn/tmxlite.git"
-    GIT_TAG "master"
-)
-
-FetchContent_MakeAvailable(raylib tinyxml2 tmxlite)
+FetchContent_MakeAvailable(raylib)
 
 add_executable(${PROJECT_NAME} ${SOURCES})
 
@@ -63,22 +49,20 @@ target_include_directories(${PROJECT_NAME} PRIVATE
     "${CMAKE_SOURCE_DIR}/include/Menu"
     "${CMAKE_SOURCE_DIR}/include/UI"
     "${CMAKE_SOURCE_DIR}/include/World"
-    "${tmxlite_SOURCE_DIR}/include"
-    "${tinyxml2_SOURCE_DIR}"
+    "${CMAKE_SOURCE_DIR}/external/tmxlite/tmxlite/include"
+
 )
 
 # Линковка библиотек
 target_link_libraries(${PROJECT_NAME} PRIVATE 
     raylib
-    tinyxml2
-    # tmxlite не линкуется, так как это header-only библиотека
+    ${CMAKE_SOURCE_DIR}/external/tmxlite/tmxlite/build/libtmxlite.a
 )
 
 # Платформо-специфичные настройки
 if(WIN32)
     target_link_libraries(${PROJECT_NAME} PRIVATE opengl32 gdi32 winmm)
 endif()
-
 if(APPLE)
     target_link_libraries(${PROJECT_NAME} PRIVATE 
         "-framework OpenGL"

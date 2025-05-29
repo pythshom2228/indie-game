@@ -1,5 +1,6 @@
 #include <World/world.hpp>
 #include "world.hpp"
+#include <tmxlite/Map.hpp>
 #include <iostream>
 
 World::World(const std::string & filename, Player * player)
