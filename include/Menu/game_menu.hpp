@@ -1,12 +1,11 @@
 #pragma once
 #include <raylib.h>
-
+#include <memory>
 class GameMenu {
 public:
-    GameMenu(const Font& font) : game_font(font) {}
-    virtual void handleInput();
-    virtual void renderMenu();
-    const Font& game_font ;
+
+    virtual void handleInput() = 0;
+    virtual void renderMenu() = 0;
     
     virtual ~GameMenu() {}; 
 };
@@ -14,9 +13,8 @@ public:
 class StartMenu : public GameMenu {
 public:
 
-
-    void handleInput() override;
-    void renderMenu() override;
+    void handleInput() override {};
+    void renderMenu() override {};
 
 };
 
