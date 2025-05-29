@@ -2,7 +2,7 @@
 #include <iostream>
 
 Game::Game()
-: window_width(800), window_height(800) {
+: window_width(1920), window_height(1080) {
     SetTargetFPS(120);
 
     _worlds.push_back(World("resources/worlds/old_world.tmx",&_player));
@@ -17,6 +17,8 @@ void Game::start() {
     
 
     this->_menu = std::make_unique<StartMenu>();
+
+    _world = std::make_unique<World>("dogWorld.tmx");
 
     bool isRunning = false;
     while(!WindowShouldClose()) {

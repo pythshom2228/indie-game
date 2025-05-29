@@ -1,7 +1,9 @@
-#include <World/world.hpp>
 #include "world.hpp"
+
 #include <tmxlite/Map.hpp>
-#include <iostream>
+#include <tmxlite/TileLayer.hpp>
+#include <tmxlite/Tileset.hpp>
+
 
 World::World(const std::string & filename, Player * player)
 : _filename(filename), _player(player) {}
@@ -18,17 +20,9 @@ _is_finished(world._is_finished) {
 }
 
 void World::render() const {
-
-    // for (const auto & entity : _entities) {
-    //     entity->render();
-    // }
-
-    for (const auto & tile : _tiles) {
+    for (const auto& tile : _tiles) {
         tile.render(_tileset);
     }
-
-    //DrawTexture(_tileset, 0, 0, WHITE);
-
 }
 
 void World::update() {
@@ -39,101 +33,78 @@ void World::update() {
 
 }
 
-#include <tmxlite/Map.hpp>
-#include <tmxlite/TileLayer.hpp>
 
 bool World::loadFromFile(const std::string& filename) {
-    // Полный путь к файлу
-    std::string fullPath = "resources/worlds/" + filename;
-    
-    // 1. Загрузка карты
     tmx::Map map;
-    if (!map.load(fullPath)) {
-        TraceLog(LOG_ERROR, "Failed to load map: %s", fullPath.c_str());
+    
+    if (!map.load("resources/worlds/" + filename)) {
         return false;
     }
-    
-    // 2. Получение tileset'а (первого в списке)
+
+    const auto& mapSize = map.getTileCount();
+    _width = mapSize.x;
+    _height = mapSize.y;
+
+    // Явно задаем размер тайла из TMX (256x256)
+    const int tileWidth = 256;
+    const int tileHeight = 256;
+
     const auto& tilesets = map.getTilesets();
     if (tilesets.empty()) {
-        TraceLog(LOG_ERROR, "No tilesets found in map");
         return false;
     }
-    
+
     const auto& tileset = tilesets[0];
     std::string tilesetPath = tileset.getImagePath();
     
-    // 3. Загрузка текстуры tileset'а
     _tileset = LoadTexture(tilesetPath.c_str());
     if (_tileset.id == 0) {
-        TraceLog(LOG_ERROR, "Failed to load tileset texture: %s", tilesetPath.c_str());
         return false;
     }
-    
-    TraceLog(LOG_INFO, "Successfully loaded tileset: %s", tilesetPath.c_str());
-    
-    
+
+    _tiles.clear();
+    _grid.clear();
+    _grid.resize(_width * _height, '0');
+
     const auto& layers = map.getLayers();
     for (const auto& layer : layers) {
         if (layer->getType() == tmx::Layer::Type::Tile) {
             const auto& tileLayer = layer->getLayerAs<tmx::TileLayer>();
-            
-            // Сохраняем размеры карты
-            _width = tileLayer.getSize().x;
-            _height = tileLayer.getSize().y;
-            
-            // Заполняем сетку
             const auto& tiles = tileLayer.getTiles();
-            _grid.reserve(tiles.size());
             
-            for (const auto& tile : tiles) {
-                _grid.push_back(tile.ID); // Сохраняем ID тайлов
+            for (unsigned int y = 0; y < mapSize.y; ++y) {
+                for (unsigned int x = 0; x < mapSize.x; ++x) {
+                    const auto& tile = tiles[y * mapSize.x + x];
+                    if (tile.ID == 0) continue;
+
+                    Rectangle destRec = {
+                        static_cast<float>(x * tileWidth),
+                        static_cast<float>(y * tileHeight),
+                        static_cast<float>(tileWidth),
+                        static_cast<float>(tileHeight)
+                    };
+
+                    const unsigned int tilesetColumns = tileset.getColumnCount();
+                    const unsigned int relativeID = tile.ID - tileset.getFirstGID();
+                    
+                    int tilesetX = (relativeID % tilesetColumns) * tileWidth;
+                    int tilesetY = (relativeID / tilesetColumns) * tileHeight;
+                    
+                    Rectangle sourceRec = {
+                        static_cast<float>(tilesetX),
+                        static_cast<float>(tilesetY),
+                        static_cast<float>(tileWidth),
+                        static_cast<float>(tileHeight)
+                    };
+
+                    _tiles.emplace_back(sourceRec, destRec);
+                    _grid[y * _width + x] = '1';
+                }
             }
-            
-            TraceLog(LOG_INFO, "Loaded tile layer with %dx%d tiles", _width, _height);
-            break; // Пока берем только первый слой
         }
     }
 
-        // 5. Создание объектов Tile
-        const auto& tilesetInfo = map.getTilesets()[0];
-        unsigned int tileWidth = tilesetInfo.getTileSize().x;
-        unsigned int tileHeight = tilesetInfo.getTileSize().y;
-        
-        for (int y = 0; y < _height; ++y) {
-            for (int x = 0; x < _width; ++x) {
-                int index = y * _width + x;
-                unsigned int tileID = _grid[index];
-                
-                if (tileID == 0) continue; // 0 - пустой тайл
-                
-                // Позиция на карте
-                Rectangle destRec = {
-                    x * tileWidth * 1.0f,
-                    y * tileHeight * 1.0f,
-                    tileWidth * 1.0f,
-                    tileHeight * 1.0f
-                };
-                
-                // Позиция в tileset'е
-                unsigned int tilesetColumns = tilesetInfo.getColumnCount();
-                unsigned int tilesetX = (tileID - 1) % tilesetColumns;
-                unsigned int tilesetY = (tileID - 1) / tilesetColumns;
-                
-                Rectangle sourceRec = {
-                    tilesetX * tileWidth * 1.0f,
-                    tilesetY * tileHeight * 1.0f,
-                    tileWidth * 1.0f,
-                    tileHeight * 1.0f
-                };
-                
-                _tiles.emplace_back(sourceRec, destRec);
-            }
-        }
-        
-        TraceLog(LOG_INFO, "Created %d tile objects", _tiles.size());
-
-
+    _filename = filename;
     return true;
 }
 

@@ -6,11 +6,12 @@
 
 #include "animation_component.hpp"
 #include "collidable.hpp"
+#include "constants.hpp"
 
 class Entity : public Collidable {
 public:
 
-    Entity() = default;
+    Entity();
 
     bool checkCollission(const Collidable& obj);
     void move(const Vector2& dest);
@@ -31,6 +32,7 @@ protected:
 
     Rectangle _hitbox;
     std::vector<Texture2D> _textures;
+    RotationStates _rotation_state;
     Vector2 _position;
     int _velocity;
     bool _isColliadable;

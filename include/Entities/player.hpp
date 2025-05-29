@@ -8,9 +8,16 @@
 class Player : public Entity {
 public:
 
-    Player() = default;
+    Player(const std::string & name, int hp = 3);
 
-    
+    void setName(const std::string & name);
+    void setQuest(Quest& quest);
+    void setHp(int hp);
+
+    const std::string & getName() const;
+    const Quest * getQuest() const;
+    int getHp() const;
+
     void interact();
 
 private:
