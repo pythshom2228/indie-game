@@ -1,10 +1,10 @@
 #pragma once
 #include <raylib.h>
 #include "entity.hpp"
-#include "quest.hpp"
+#include "../quest.hpp"
 
 class Player : Entity {
-    
+    Player(const std::string& name);
     void render() override;
 
 private:

@@ -36,7 +36,7 @@ public:
     const Player * getPlayer() const;
     std::string getFilename() const;
     
-    void setTile()
+    void setTile();
     void setPlayer(Player* player);
     void setFinished(bool _finished);
     
@@ -45,7 +45,7 @@ public:
     
 private:
     Player* _player;
-    std::map<int, std::unique_ptr<Entity>_entities;
+    std::map<int, std::unique_ptr<Entity>> _entities;
     std::vector<Tile> _tiles;
 
     std::vector<char> _grid;
