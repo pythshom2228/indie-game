@@ -21,7 +21,7 @@ public:
     
     void render() const;
     void update();
-    
+
     bool loadFromFile(const std::string & filename);
     bool saveToFile(const std::string & filename);
 

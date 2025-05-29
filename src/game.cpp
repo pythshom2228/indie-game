@@ -2,12 +2,14 @@
 #include <iostream>
 
 Game::Game()
-: window_width(800), window_height(800), _world(std::make_unique<World>("resources/worlds/dog_world.tmx")) {
+: window_width(1920), window_height(1080) {
     SetTargetFPS(120);
 }
 
 void Game::start() {
     InitWindow(window_width,window_height,"Game");
+
+    _world = std::make_unique<World>("dogWorld.tmx");
 
     bool isRunning = false;
     while(!WindowShouldClose()) {
