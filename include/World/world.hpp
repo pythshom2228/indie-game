@@ -6,8 +6,6 @@
 #include <memory>
 #include <sstream>
 
-#include "tinyxml2.h" 
-
 #include "player.hpp"
 #include "tile.hpp"
 

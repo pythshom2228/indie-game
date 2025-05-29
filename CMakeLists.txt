@@ -3,7 +3,6 @@ project(Game)
 
 set(CMAKE_CXX_FLAGS "-Wall -Wextra -Wpedantic")
 
-
 if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE "Debug" CACHE STRING "Choose the type of build" FORCE)
 endif()
@@ -29,7 +28,7 @@ set(RESOURCES_DIR "resources")
 # Настройка FetchContent
 include(FetchContent)
 set(FETCHCONTENT_BASE_DIR "${CMAKE_SOURCE_DIR}/external")
-set(FETCHCONTENT_QUIET OFF)  # Для отображения статуса загрузки
+set(FETCHCONTENT_QUIET OFF)
 
 # Загрузка raylib
 FetchContent_Declare(
@@ -42,15 +41,21 @@ FetchContent_Declare(
 FetchContent_Declare(
     tinyxml2
     GIT_REPOSITORY "https://github.com/leethomason/tinyxml2.git"
-    GIT_TAG "9.0.0"  # Последняя стабильная версия
+    GIT_TAG "9.0.0"  # Проверьте актуальную версию
 )
 
-FetchContent_MakeAvailable(raylib tinyxml2)
+# Загрузка tmxlite
+FetchContent_Declare(
+    tmxlite
+    GIT_REPOSITORY "https://github.com/fallahn/tmxlite.git"
+    GIT_TAG "master"
+)
+
+FetchContent_MakeAvailable(raylib tinyxml2 tmxlite)
 
 add_executable(${PROJECT_NAME} ${SOURCES})
 
 # Настройка include-директорий
-message("${CMAKE_SOURCE_DIR}/include")
 target_include_directories(${PROJECT_NAME} PRIVATE
     "${CMAKE_SOURCE_DIR}/include"
     "${CMAKE_SOURCE_DIR}/include/Animation"
@@ -58,13 +63,15 @@ target_include_directories(${PROJECT_NAME} PRIVATE
     "${CMAKE_SOURCE_DIR}/include/Menu"
     "${CMAKE_SOURCE_DIR}/include/UI"
     "${CMAKE_SOURCE_DIR}/include/World"
-    "${tinyxml2_SOURCE_DIR}"  # Добавляем путь к tinyxml2
+    "${tmxlite_SOURCE_DIR}/include"
+    "${tinyxml2_SOURCE_DIR}"
 )
 
 # Линковка библиотек
 target_link_libraries(${PROJECT_NAME} PRIVATE 
     raylib
     tinyxml2
+    # tmxlite не линкуется, так как это header-only библиотека
 )
 
 # Платформо-специфичные настройки
