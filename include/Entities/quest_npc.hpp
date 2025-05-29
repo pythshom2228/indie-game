@@ -4,7 +4,7 @@
 #include "quest.hpp"
 
 template<int questNum>
-class QuestNPC : NPC {
+class QuestNPC : public  NPC {
 public:
     void render() override {}
 

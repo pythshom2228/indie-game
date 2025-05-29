@@ -18,8 +18,9 @@ private:
 
     bool isRunning = false;
     const size_t window_width;
-    const size_t wnidow_height;
-    const std::shared_ptr<Font> font;
+    const size_t window_height;
     std::unique_ptr<GameMenu> menu;
     Player m_player;
+
+    Camera2D _camera;
 };

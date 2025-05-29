@@ -1,11 +1,10 @@
 #pragma once
 #include "entity.hpp"
 
-class NPC : Entity {
+class NPC : public Entity {
 public:
-    void render() override;
 
-private:
+protected:
     std::string _name;
     std::vector<std::string> _phrases;
 };

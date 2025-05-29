@@ -3,13 +3,16 @@
 #include "entity.hpp"
 #include "../quest.hpp"
 
-class Player : Entity {
-    Player(const std::string& name);
-    void render() override;
+class Player : public Entity {
+public:
+
+    Player() = default;
+
+    void update() override;
+    void interact();
 
 private:
     int _hp;
     std::string _name;
     Quest* _current_quest;
-    Camera2D _camera;
 };
