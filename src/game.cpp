@@ -1,4 +1,5 @@
 #include <game.hpp>
+#include <iostream>
 
 Game::Game()
 : window_width(800), window_height(800), _world(std::make_unique<World>("resources/worlds/dog_world.tmx")) {
