@@ -1,6 +1,8 @@
 #pragma once
+
 #include <raylib.h>
 #include <memory>
+
 class GameMenu {
 public:
 

@@ -1,6 +1,8 @@
 #pragma once
+
+#include <array>
+
 #include "npc.hpp"
-#include "array"
 #include "quest.hpp"
 
 template<int questNum>

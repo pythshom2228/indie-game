@@ -1,12 +1,7 @@
 #include <game.hpp>
 
-
-
-Game::Game() :
-    menu(std::make_unique<StartMenu>()),
-    window_width(800),
-    window_height(800)
-{
+Game::Game()
+: window_width(800), window_height(800), _world(std::make_unique<World>("resources/worlds/dog_world.tmx")) {
     SetTargetFPS(120);
 }
 
@@ -16,22 +11,25 @@ void Game::start() {
     bool isRunning = false;
     while(!WindowShouldClose()) {
         
-        if(!isRunning) {
-            menu->handleInput();
-            menu->renderMenu();
-        }
-
-        this->run();
+        update();
+        render();
 
     }
 
     CloseWindow();
 }
 
-void Game::run() {
-    while(1) {
-        BeginDrawing();
-        ClearBackground(WHITE);
-        EndDrawing();
-    }
+void Game::update() {
+    
+    _world->update();
+
+}
+
+void Game::render() {
+    BeginDrawing();
+    ClearBackground(WHITE);
+
+    _world->render();
+
+    EndDrawing();
 }

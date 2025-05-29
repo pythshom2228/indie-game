@@ -1,14 +1,16 @@
 #pragma once
+
 #include <raylib.h>
+
 #include "entity.hpp"
-#include "../quest.hpp"
+#include "quest.hpp"
 
 class Player : public Entity {
 public:
 
     Player() = default;
 
-    void update() override;
+    
     void interact();
 
 private:
