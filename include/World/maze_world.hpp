@@ -2,7 +2,7 @@
 
 #include "world.hpp"
 
-class NightWorld : public World {
+class MazeWorld : public World {
 
     
 
