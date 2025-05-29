@@ -4,10 +4,7 @@
 #include <iostream>
 
 World::World(const std::string & filename, Player * player)
-: _filename(filename), _player(player) {
-    loadFromFile(_filename);
-    
-}
+: _filename(filename), _player(player) {}
 
 World::World(World&& world)
 : _width(world._width), _height(world._height), 
