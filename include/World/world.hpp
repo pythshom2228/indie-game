@@ -2,9 +2,11 @@
 
 #include <vector>
 #include <map>
-
 #include <string>
 #include <memory>
+#include <sstream>
+
+#include "tinyxml2.h" 
 
 #include "player.hpp"
 #include "tile.hpp"
@@ -12,7 +14,7 @@
 
 class World {
 public:
-    World(const std::string & filename);
+    World(const std::string & filename, Player * player = nullptr);
     World(World&& world);
     
     World(const World & world) = delete;
@@ -35,8 +37,9 @@ public:
     Tile getTile(int x, int y) const;
     const Player * getPlayer() const;
     std::string getFilename() const;
+    Texture2D getTileset() const;
     
-    void setTile();
+    void setTileset(const Texture2D & tileset);
     void setPlayer(Player* player);
     void setFinished(bool _finished);
     
@@ -44,11 +47,14 @@ public:
     bool isFinished() const;
     
 private:
+    std::vector<std::unique_ptr<Entity>> _entities;
     Player* _player;
-    std::map<int, std::unique_ptr<Entity>> _entities;
-    std::vector<Tile> _tiles;
 
+    Texture2D _tileset;
+    std::vector<Tile> _tiles;
     std::vector<char> _grid;
+    int _width;
+    int _height;
 
     bool _is_finished;
 

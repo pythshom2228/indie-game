@@ -1,13 +1,16 @@
+#pragma once
+
 #include <raylib.h>
 #include <vector>
 #include <string>
-#include <Animation/animation_component.hpp>
-#include "../collidable.hpp"
 
-class Entity : public Collidable{
+#include "animation_component.hpp"
+#include "collidable.hpp"
+
+class Entity : public Collidable {
 public:
 
-    Entity() {}
+    Entity() = default;
 
     bool checkCollission(const Collidable& obj);
     void move(const Vector2& dest);
@@ -17,10 +20,10 @@ public:
     void setPosition(float x, float y);
 
     const Vector2& getPosition();
-    
 
-    virtual void update() = 0;
-    virtual void render() = 0;
+
+    void update();
+    void render();
 
     virtual ~Entity() {};
 
