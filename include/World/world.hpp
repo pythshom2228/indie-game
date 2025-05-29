@@ -37,6 +37,7 @@ public:
     const Player * getPlayer() const;
     std::string getFilename() const;
     Texture2D getTileset() const;
+    const std::string& getName() const;
     
     void setTileset(const Texture2D & tileset);
     void setPlayer(Player* player);
@@ -56,6 +57,6 @@ private:
     int _height;
 
     bool _is_finished;
-
+    std::string _world_name;
     std::string _filename;
 };

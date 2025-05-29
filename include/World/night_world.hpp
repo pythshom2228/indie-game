@@ -1,9 +1,0 @@
-#pragma once
-
-#include "world.hpp"
-
-class NightWorld : public World {
-
-    
-
-};
