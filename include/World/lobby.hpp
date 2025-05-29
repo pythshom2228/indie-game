@@ -2,6 +2,6 @@
 
 #include "world.hpp"
 
-class Lobby : public World {
+class Lobby {
 
 };
