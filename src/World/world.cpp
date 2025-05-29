@@ -1,7 +1,9 @@
-#include <World/world.hpp>
 #include "world.hpp"
+
 #include <tmxlite/Map.hpp>
-#include <iostream>
+#include <tmxlite/TileLayer.hpp>
+#include <tmxlite/Tileset.hpp>
+
 
 World::World(const std::string & filename, Player * player)
 : _filename(filename), _player(player) {
@@ -34,10 +36,6 @@ void World::update() {
 
 }
 
-#include <tmxlite/Map.hpp>
-#include <tmxlite/TileLayer.hpp>
-#include <tmxlite/Tileset.hpp>
-#include <raylib.h>
 
 bool World::loadFromFile(const std::string& filename) {
     tmx::Map map;
