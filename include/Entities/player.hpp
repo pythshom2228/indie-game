@@ -8,7 +8,9 @@
 class Player : public Entity {
 public:
 
-    Player(const std::string & name, int hp = 3);
+    Player();
+
+    Player(const std::vector<Texture2D> _textures, const std::string & name,const Vector2 & position, int hp = 3);
 
     void setName(const std::string & name);
     void setQuest(Quest& quest);

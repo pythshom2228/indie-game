@@ -4,6 +4,8 @@
 #include <memory>
 #include <game.hpp>
 
+class Game;
+
 class GameMenu {
 public:
 

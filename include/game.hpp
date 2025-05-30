@@ -5,7 +5,6 @@
 #include "player.hpp"
 #include "game_menu.hpp"
 #include "world.hpp"
-#include "lobby.hpp"
 
 class Game {
 public:
@@ -28,8 +27,7 @@ private:
     std::unique_ptr<GameMenu> _menu;
 
     
-    std::vector<World> _worlds;
-    std::vector<World>::iterator _currentWorld;
+    World _world;
     
     Player _player;
 
