@@ -35,7 +35,6 @@ void World::render() const {
 
 void World::update() {
 
-
     if (IsKeyDown(KEY_A)) 
     {
         _player->move(-3.0f, 0.0f);
@@ -51,7 +50,9 @@ void World::update() {
     if (IsKeyDown(KEY_S)) 
     {
         _player->move(0.0f, 3.0f);
-    } 
+    }
+
+    
 
 }
 
