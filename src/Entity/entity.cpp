@@ -100,4 +100,11 @@ void Entity::render() const {
     // Отладочная точка в центре (можно убрать)
     DrawCircle(_position.x, _position.y, 2.0f, BLUE);
 
+    int x = _position.x / 256.0f;
+    int y = _position.y / 256.0f;
+
+    std::string coord = std::to_string(x) + " " + std::to_string(y);
+
+    DrawText(coord.c_str(), _position.x + 5, _position.y - 30, 50, RED);
+
 }
