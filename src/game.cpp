@@ -32,6 +32,7 @@ void Game::start() {
 
 void Game::update() {
 
+
     _world.update();
 
     playerHandleInput();
@@ -42,11 +43,26 @@ void Game::update() {
 
     if (IsKeyDown(KEY_UP)) {
         _camera.zoom += 0.01f;
-    }
-    if (IsKeyDown(KEY_DOWN)) {
-        _camera.zoom -= 0.01f;
-    }
 
+    if(_menu->isActive()) {
+        _menu->update();
+        _menu->render();
+
+    }
+    else {
+        _world.update();
+
+        Vector2 playerPos = _player.getPosition();
+        _camera.target.x = Lerp(_camera.target.x, playerPos.x, 0.05f);
+        _camera.target.y = Lerp(_camera.target.y, playerPos.y, 0.05f);
+
+        if (IsKeyDown(KEY_UP)) {
+            _camera.zoom += 0.01f;
+        }
+        if (IsKeyDown(KEY_DOWN)) {
+            _camera.zoom -= 0.01f;
+        }
+    }
 }
 
 bool isCollision(int tileId) {

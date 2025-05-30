@@ -47,11 +47,8 @@ void World::render() const {
 }
 
 void World::update() {
-
     
     _player->update();
-
-
 }
 
 bool World::loadFromFile(const std::string & filename) {
