@@ -3,7 +3,7 @@
 
 int main(void) {
 
-    InitWindow(1280, 720, "La");
+    InitWindow(1280, 720, "Game");
 
     Game game;
     

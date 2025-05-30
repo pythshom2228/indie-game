@@ -4,6 +4,7 @@
 
 #include "entity.hpp"
 #include "quest.hpp"
+#include "UI/hud.hpp"
 
 class Player : public Entity {
 public:
@@ -27,5 +28,6 @@ public:
 private:
     int _hp;
     std::string _name;
+    HUD _hud;
     Quest* _current_quest;
 };

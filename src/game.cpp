@@ -4,15 +4,16 @@
 #include <raymath.h>
 
 Game::Game()
-: window_width(GetScreenWidth()), window_height(GetScreenHeight()) {
+:   window_width(GetScreenWidth()) 
+    , window_height(GetScreenHeight())
+    , _menu(std::make_unique<StartMenu>(_isRunning)) {
     SetTargetFPS(120);
-    
-        // Инициализация камеры
+
     _camera = {0};
-    _camera.offset = {static_cast<float>(window_width) / 2, static_cast<float>(window_height) / 2}; // Центр камеры
-    _camera.target = {0, 0}; // Начальная позиция (обновится в update())
-    _camera.rotation = 0.0f;  // Без вращения
-    _camera.zoom = 1.0f;      // Стандартный масштаб
+    _camera.offset = {static_cast<float>(window_width) / 2, static_cast<float>(window_height) / 2}; 
+    _camera.target = {0, 0};
+    _camera.rotation = 0.0f;  
+    _camera.zoom = 1.0f;      
 }
 
 void Game::start() {
@@ -21,8 +22,7 @@ void Game::start() {
     _world.setPlayer(&_player);
     _player.setPosition(200.0f, 200.0f);
 
-    bool isRunning = false;
-    while(!WindowShouldClose()) {
+    while(!WindowShouldClose() && _isRunning) {
         update();
         render();
     }
@@ -221,14 +221,19 @@ void Game::render() {
     BeginDrawing();
     ClearBackground(WHITE);
 
+    if(_menu->isActive()) {
+        _menu->render();
+    }
+    else {
+        BeginMode2D(_camera);
 
-    BeginMode2D(_camera);
+            _world.render(); 
+        
+        EndMode2D();
 
-        _world.render(); 
-    
-    EndMode2D();
-
+    }
     EndDrawing();
+    
 }
 
 void Game::loadWorld(const std::string& _name) {

@@ -21,6 +21,8 @@ set(SOURCES
 
     src/World/world.cpp
     src/World/tile.cpp
+
+    src/UI/ui_element.cpp
 )
 set(RESOURCES_DIR "resources")
 
