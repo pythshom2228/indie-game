@@ -92,6 +92,11 @@ bool World::loadFromFile(const std::string & filename) {
             const auto& tileLayer = layer->getLayerAs<tmx::TileLayer>();
             const auto& tiles = tileLayer.getTiles();
             
+            TileClass tile_class;
+            
+            if (tileLayer.getName() == "Floor") tile_class = TileClass::Floor;
+            else tile_class = TileClass::Wall;
+
             for (unsigned int y = 0; y < mapSize.y; ++y) {
                 for (unsigned int x = 0; x < mapSize.x; ++x) {
                     const auto& tile = tiles[y * mapSize.x + x];
@@ -111,11 +116,11 @@ bool World::loadFromFile(const std::string & filename) {
                             static_cast<float>(tileWidth),
                             static_cast<float>(tileHeight)
                         };
-                        
+
                         // Добавляем тайл в вектор и запоминаем его индекс
                         tileIdToIndex[tile.ID] = _tiles.size();
-                        _tiles.emplace_back(sourceRec);
-                        _tiles.back()._id = tile.ID; // Сохраняем оригинальный ID
+                        _tiles.emplace_back(sourceRec, tile_class);
+                        _tiles.back().setId(tile.ID); // Сохраняем оригинальный ID
                     }
 
                     // Записываем индекс тайла в grid
@@ -154,6 +159,10 @@ void World::removeEntity(const std::string & entity_name) {
 
 int World::getTileId(int x, int y) const {
     return _grid.at(y * _width + x);
+}
+
+const Tile &World::getTile(int x, int y) const {
+    return _tiles[_grid.at(y * _width + x)];
 }
 
 const Player * World::getPlayer()   const { return _player;   }
