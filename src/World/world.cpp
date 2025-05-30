@@ -38,6 +38,7 @@ void World::update() {
     if (IsKeyDown(KEY_A)) 
     {
         _player->move(-3.0f, 0.0f);
+
     }
     if (IsKeyDown(KEY_D)) 
     {
@@ -87,7 +88,7 @@ bool World::loadFromFile(const std::string & filename) {
 
     _tiles.clear();
     _grid.clear();
-    _grid.resize(_width * _height, '0');
+    _grid.resize(_width * _height, 0); // Инициализируем нулями
 
     const auto& layers = map.getLayers();
     for (const auto& layer : layers) {
@@ -98,7 +99,6 @@ bool World::loadFromFile(const std::string & filename) {
             for (unsigned int y = 0; y < mapSize.y; ++y) {
                 for (unsigned int x = 0; x < mapSize.x; ++x) {
                     const auto& tile = tiles[y * mapSize.x + x];
-                    if (tile.ID == 0) continue;
 
                     Rectangle destRec = {
                         static_cast<float>(x * tileWidth),
@@ -112,7 +112,7 @@ bool World::loadFromFile(const std::string & filename) {
                     
                     int tilesetX = (relativeID % tilesetColumns) * tileWidth;
                     int tilesetY = (relativeID / tilesetColumns) * tileHeight;
-                    
+                        
                     Rectangle sourceRec = {
                         static_cast<float>(tilesetX),
                         static_cast<float>(tilesetY),
@@ -121,10 +121,18 @@ bool World::loadFromFile(const std::string & filename) {
                     };
 
                     _tiles.emplace_back(sourceRec, destRec);
-                    _grid[y * _width + x] = '1';
+                    _grid[y * _width + x] = tile.ID; // Сохраняем оригинальный ID тайла
                 }
             }
         }
+    }
+
+    // Отладочный вывод (исправлена ошибка в индексации)
+    for (int i = 0; i < _height; ++i) {
+        for (int j = 0; j < _width; ++j) {
+            std::cout << _grid[i * _width + j] << " "; // Исправлено с _height на _width
+        }
+        std::cout << std::endl;
     }
 
     return true;

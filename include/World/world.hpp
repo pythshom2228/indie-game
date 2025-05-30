@@ -54,7 +54,7 @@ private:
 
     Texture2D _tileset;
     std::vector<Tile> _tiles;
-    std::vector<char> _grid;
+    std::vector<int> _grid;
     int _width;
     int _height;
 

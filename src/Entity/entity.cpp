@@ -62,7 +62,6 @@ void Entity::render() const {
     
     Texture2D texture = _textures[texture_index];
     
-    // Рассчитываем смещение, чтобы текстура рисовалась от центра
     Rectangle source_rect = {
         0.0f, 0.0f,                       // Начало текстуры (x, y)
         (float)texture.width,              // Ширина исходной текстуры
@@ -90,7 +89,13 @@ void Entity::render() const {
         0.0f,                              // Угол поворота (если нужно)
         WHITE                              // Цвет (можно добавить поле)
     );
-    DrawRectangleLinesEx(_hitbox, 3.0f, RED);
+
+    DrawRectangleLinesEx(
+        {_hitbox.x - _hitbox.width / 2.0f, 
+        _hitbox.y - _hitbox.height / 2.0f, 
+        _hitbox.width, _hitbox.height}, 
+        3.0f, RED
+    );
     
     // Отладочная точка в центре (можно убрать)
     DrawCircle(_position.x, _position.y, 2.0f, BLUE);
