@@ -1,11 +1,13 @@
 #include "player.hpp"
-#include <iostream>
 
 Player::Player() 
 : Entity({}), _name("Renat"), _hp(3), _current_quest(nullptr) {
-    _textures.push_back(LoadTexture("resources/main_character.png"));
-    _textures[0].height = _textures[0].height / 2;
-    _textures[0].width = _textures[0].width / 2;
+    _textures.push_back(LoadTexture("resources/player/walkUpFirst.png"));
+    _textures.push_back(LoadTexture("resources/player/walkUpFirst.png"));
+    _textures.push_back(LoadTexture("resources/player/walkDownFirst.png"));
+    _textures.push_back(LoadTexture("resources/player/walkDownFirst.png"));
+
+    scale(0.15f, 0.15f);
 }
 
 Player::Player(const std::vector<Texture2D> _textures, const std::string & name,const Vector2 & position, int hp) 

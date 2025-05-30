@@ -11,6 +11,7 @@ public:
     void render(const Texture2D tileset) const;
 
     size_t _id;
+    
     Rectangle _source_rec;
     Rectangle _dest_rec;
 };
