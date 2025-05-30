@@ -15,8 +15,9 @@ public:
 
     void move(const Vector2& dest);
     void move(float x, float y);
+    void updateHitboxes(float x, float y);
     void scale(float width, float height);
-    
+
     void setPosition(const Vector2& position);
     void setPosition(float x, float y);
 
@@ -27,6 +28,8 @@ public:
 
 
 protected:
+
+    void initHitbox();
 
     std::vector<Texture2D> _textures;
     RotationStates _rotation_state;

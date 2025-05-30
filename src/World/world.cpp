@@ -22,24 +22,34 @@ _is_finished(world._is_finished) {
 }
 
 void World::render() const {
-    for (const auto& tile : _tiles) {
-        tile.render(_tileset);
-    }
+    const int tileWidth = 256;
+    const int tileHeight = 256;
 
-    // for (const auto& entity : _entities) {
-    //     entity->render();
-    // }
+    for (int y = 0; y < _height; ++y) {
+        for (int x = 0; x < _width; ++x) {
+
+            int tileIndex = _grid[y * _width + x];
+
+            if (tileIndex >= 0 && tileIndex < static_cast<int>(_tiles.size())) {
+                Rectangle destRec = {
+                    static_cast<float>(x * tileWidth),
+                    static_cast<float>(y * tileHeight),
+                    static_cast<float>(tileWidth),
+                    static_cast<float>(tileHeight)
+                };
+                
+                _tiles[tileIndex].render(_tileset, destRec);
+            }
+        }
+    }
 
     _player->render();
 }
 
 void World::update() {
+    
     _player->update();
-    for(auto& entity :_entities) {
-        entity->update();
-    }
 }
-
 
 bool World::loadFromFile(const std::string & filename) {
     tmx::Map map;
@@ -52,7 +62,6 @@ bool World::loadFromFile(const std::string & filename) {
     _width = mapSize.x;
     _height = mapSize.y;
 
-    // Явно задаем размер тайла из TMX (256x256)
     const int tileWidth = 256;
     const int tileHeight = 256;
 
@@ -69,9 +78,13 @@ bool World::loadFromFile(const std::string & filename) {
         return false;
     }
 
+    // Очищаем и готовим структуры данных
     _tiles.clear();
     _grid.clear();
-    _grid.resize(_width * _height, '0');
+    _grid.resize(_width * _height, -1); // -1 означает отсутствие тайла
+
+    // Словарь для хранения уже добавленных тайлов (ID -> индекс в _tiles)
+    std::unordered_map<unsigned int, unsigned int> tileIdToIndex;
 
     const auto& layers = map.getLayers();
     for (const auto& layer : layers) {
@@ -84,31 +97,40 @@ bool World::loadFromFile(const std::string & filename) {
                     const auto& tile = tiles[y * mapSize.x + x];
                     if (tile.ID == 0) continue;
 
-                    Rectangle destRec = {
-                        static_cast<float>(x * tileWidth),
-                        static_cast<float>(y * tileHeight),
-                        static_cast<float>(tileWidth),
-                        static_cast<float>(tileHeight)
-                    };
+                    // Если тайл с таким ID еще не добавлен в _tiles
+                    if (tileIdToIndex.find(tile.ID) == tileIdToIndex.end()) {
+                        const unsigned int tilesetColumns = tileset.getColumnCount();
+                        const unsigned int relativeID = tile.ID - tileset.getFirstGID();
+                        
+                        int tilesetX = (relativeID % tilesetColumns) * tileWidth;
+                        int tilesetY = (relativeID / tilesetColumns) * tileHeight;
+                        
+                        Rectangle sourceRec = {
+                            static_cast<float>(tilesetX),
+                            static_cast<float>(tilesetY),
+                            static_cast<float>(tileWidth),
+                            static_cast<float>(tileHeight)
+                        };
+                        
+                        // Добавляем тайл в вектор и запоминаем его индекс
+                        tileIdToIndex[tile.ID] = _tiles.size();
+                        _tiles.emplace_back(sourceRec);
+                        _tiles.back()._id = tile.ID; // Сохраняем оригинальный ID
+                    }
 
-                    const unsigned int tilesetColumns = tileset.getColumnCount();
-                    const unsigned int relativeID = tile.ID - tileset.getFirstGID();
-                    
-                    int tilesetX = (relativeID % tilesetColumns) * tileWidth;
-                    int tilesetY = (relativeID / tilesetColumns) * tileHeight;
-                    
-                    Rectangle sourceRec = {
-                        static_cast<float>(tilesetX),
-                        static_cast<float>(tilesetY),
-                        static_cast<float>(tileWidth),
-                        static_cast<float>(tileHeight)
-                    };
-
-                    _tiles.emplace_back(sourceRec, destRec);
-                    _grid[y * _width + x] = '1';
+                    // Записываем индекс тайла в grid
+                    _grid[y * _width + x] = tileIdToIndex[tile.ID];
                 }
             }
         }
+    }
+
+    // Вывод grid для отладки
+    for (int i = 0; i < _height; ++i) {
+        for (int j = 0; j < _width; ++j) {
+            std::cout << _grid[i * _width + j] << " ";
+        }
+        std::cout << std::endl;
     }
 
     return true;
@@ -130,16 +152,8 @@ void World::removeEntity(const std::string & entity_name) {
 
 }
 
-std::unique_ptr<Entity>& World::operator[](int idx) {
-
-}
-
-const std::unique_ptr<Entity>& World::operator[](int idx) const {
-
-}
-
-Tile World::getTile(int x, int y) const {
-
+int World::getTileId(int x, int y) const {
+    return _grid.at(y * _width + x);
 }
 
 const Player * World::getPlayer()   const { return _player;   }

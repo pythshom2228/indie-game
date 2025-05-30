@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.20)
 project(Game)
 
-set(CMAKE_CXX_FLAGS "-Wall -Wextra -Wpedantic")
+#set(CMAKE_CXX_FLAGS "-Wall -Wextra -Wpedantic")
 
 if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE "Debug" CACHE STRING "Choose the type of build" FORCE)
@@ -13,11 +13,11 @@ set(SOURCES
     src/main.cpp
     src/game.cpp
     src/game_menu.cpp
+    src/collidable.cpp
     
     src/Entity/entity.cpp
     src/Entity/npc.cpp
     src/Entity/player.cpp
-
 
     src/World/world.cpp
     src/World/tile.cpp
