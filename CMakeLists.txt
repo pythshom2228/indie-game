@@ -12,15 +12,14 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
 set(SOURCES 
     src/main.cpp
     src/game.cpp
+    src/game_menu.cpp
     
     src/Entity/entity.cpp
     src/Entity/npc.cpp
     src/Entity/player.cpp
 
-    src/Menu/game_menu.cpp
 
     src/World/world.cpp
-    src/World/lobby.cpp
     src/World/tile.cpp
 )
 set(RESOURCES_DIR "resources")

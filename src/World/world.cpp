@@ -1,9 +1,11 @@
 #include "world.hpp"
 
-#include <tmxlite/Map.hpp>
 #include <tmxlite/TileLayer.hpp>
 #include <tmxlite/Tileset.hpp>
+#include <iostream>
 
+World::World()
+: _player(nullptr) {}
 
 World::World(const std::string & filename, Player * player)
 : _filename(filename), _player(player) {}
@@ -23,18 +25,38 @@ void World::render() const {
     for (const auto& tile : _tiles) {
         tile.render(_tileset);
     }
+
+    // for (const auto& entity : _entities) {
+    //     entity->render();
+    // }
+
+    _player->render();
 }
 
 void World::update() {
 
-    // for (const auto & entity : _entities) {
-    //     entity->update();
-    // }
+
+    if (IsKeyDown(KEY_A)) 
+    {
+        _player->move(-3.0f, 0.0f);
+    }
+    if (IsKeyDown(KEY_D)) 
+    {
+        _player->move(3.0f, 0.0f);
+    }
+    if (IsKeyDown(KEY_W)) 
+    {
+        _player->move(0.0f, -3.0f);
+    }
+    if (IsKeyDown(KEY_S)) 
+    {
+        _player->move(0.0f, 3.0f);
+    } 
 
 }
 
 
-bool World::loadFromFile(const std::string& filename) {
+bool World::loadFromFile(const std::string & filename) {
     tmx::Map map;
     
     if (!map.load("resources/worlds/" + filename)) {
@@ -104,7 +126,6 @@ bool World::loadFromFile(const std::string& filename) {
         }
     }
 
-    _filename = filename;
     return true;
 }
 
@@ -136,9 +157,10 @@ Tile World::getTile(int x, int y) const {
 
 }
 
-const Player * World::getPlayer() const { return _player;   }
-std::string World::getFilename()  const { return _filename; }
-Texture2D World::getTileset()     const { return _tileset;  }
+const Player * World::getPlayer()   const { return _player;   }
+std::string World::getFilename()    const { return _filename; }
+const std::string& World::getName() const { return _world_name; }
+Texture2D World::getTileset()       const { return _tileset;  }
 
 void World::setTileset(const Texture2D & tileset) {
     _tileset = tileset;

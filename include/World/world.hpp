@@ -13,6 +13,8 @@
 
 class World {
 public:
+    
+    World();
     World(const std::string & filename, Player * player = nullptr);
     World(World&& world);
     
