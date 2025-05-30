@@ -22,10 +22,9 @@ public:
 
     Vector2 getPosition() const;
 
-    void update();
+    virtual void update() = 0;
     void render() const;
 
-    virtual ~Entity() = default;
 
 protected:
 

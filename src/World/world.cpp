@@ -34,26 +34,10 @@ void World::render() const {
 }
 
 void World::update() {
-
-    if (IsKeyDown(KEY_A)) 
-    {
-        _player->move(-3.0f, 0.0f);
+    _player->update();
+    for(auto& entity :_entities) {
+        entity->update();
     }
-    if (IsKeyDown(KEY_D)) 
-    {
-        _player->move(3.0f, 0.0f);
-    }
-    if (IsKeyDown(KEY_W)) 
-    {
-        _player->move(0.0f, -3.0f);
-    }
-    if (IsKeyDown(KEY_S)) 
-    {
-        _player->move(0.0f, 3.0f);
-    }
-
-    
-
 }
 
 
