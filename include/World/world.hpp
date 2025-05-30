@@ -33,6 +33,7 @@ public:
     void removeEntity(const std::string & entity_name);
     
     int getTileId(int x, int y) const;
+    const Tile& getTile(int x, int y) const;
     const Player * getPlayer() const;
     std::string getFilename() const;
     Texture2D getTileset() const;

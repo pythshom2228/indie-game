@@ -13,3 +13,13 @@ void Tile::render(const Texture2D & tileset, const Rectangle & dest_rec) const {
         WHITE
     );
 }
+
+TileClass Tile::getTileClass() const { return _tile_class; }
+
+void Tile::setTileClass(const TileClass &tile_class) {
+    _tile_class = tile_class;
+}
+
+void Tile::setId(size_t id) {
+    _id = id;
+}
