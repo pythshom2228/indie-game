@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="15" height="30" tilewidth="256" tileheight="256" infinite="0" nextlayerid="2" nextobjectid="1">
- <tileset firstgid="1" source="../../../../dog_world.tsx"/>
+ <tileset firstgid="1" source="dog_world.tsx"/>
  <layer id="1" name="Tile Layer 1" width="15" height="30">
   <data encoding="csv">
 21,21,32,31,31,14,3,3,3,15,17,17,29,27,17,

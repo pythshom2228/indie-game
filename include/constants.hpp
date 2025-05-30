@@ -1,5 +1,6 @@
 #pragma once
 #include <raylib.h>
+#define RES_PATH "../resources/"
 
 extern const Font game_font;
 

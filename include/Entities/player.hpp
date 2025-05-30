@@ -11,10 +11,12 @@ public:
     Player();
 
     Player(const std::vector<Texture2D> _textures, const std::string & name,const Vector2 & position, int hp = 3);
-
+    void update() override;
+    
     void setName(const std::string & name);
     void setQuest(Quest& quest);
     void setHp(int hp);
+    
 
     const std::string & getName() const;
     const Quest * getQuest() const;

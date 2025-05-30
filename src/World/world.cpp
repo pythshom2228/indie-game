@@ -60,7 +60,7 @@ void World::update() {
 bool World::loadFromFile(const std::string & filename) {
     tmx::Map map;
     
-    if (!map.load("resources/worlds/" + filename)) {
+    if (!map.load(RES_PATH"worlds/" + filename)) {
         return false;
     }
 
