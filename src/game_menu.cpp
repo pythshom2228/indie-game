@@ -7,17 +7,25 @@ bool GameMenu::isActive() {
 }
 
 StartMenu::StartMenu(bool& isGameRunning) : _isGameRunning(isGameRunning) {
+    Sound button_sound = LoadSound(RES_PATH"UI/ButtonPressed.mp3");
+    Texture start_button_texture = LoadTexture(RES_PATH"UI/StartButton.png");
+    Texture exit_button_texture = LoadTexture(RES_PATH"UI/ExitButton.png");
 
     _start_button = Button(
-        [this](){ 
+        [this, button_sound](){ 
             this->_is_active = false;
+            PlaySound(button_sound);
         },
         Vector2{0,0},
         LoadTexture(RES_PATH"UI/StartButton.png")
     );
 
     _exit_button = Button(
-        [this]() { this->_isGameRunning = false; },
+        [this, button_sound]() { 
+            this->_isGameRunning = false; 
+            PlaySound(button_sound);
+
+        },
         Vector2{0,0},
         LoadTexture(RES_PATH"UI/ExitButton.png")
     );
