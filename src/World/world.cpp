@@ -48,22 +48,8 @@ void World::render() const {
 
 void World::update() {
 
-    _player->update();
-
-    if (IsKeyPressed(KEY_SPACE)) {
-        int x = _player->getPosition().x / 256.0f;
-        int y = _player->getPosition().y / 256.0f;
-        
-        _grid[y * _width + x] = 2;
-
-        for (int i = 0; i < _height; ++i) {
-            for (int j = 0; j < _width; ++j) {
-                std::cout << _grid[i * _width + j] << " ";
-            }
-            std::cout << std::endl;
-        }
-    }
     
+    _player->update();
 
 
 }
@@ -169,16 +155,8 @@ void World::removeEntity(const std::string & entity_name) {
 
 }
 
-std::unique_ptr<Entity>& World::operator[](int idx) {
-
-}
-
-const std::unique_ptr<Entity>& World::operator[](int idx) const {
-
-}
-
-Tile World::getTile(int x, int y) const {
-
+int World::getTileId(int x, int y) const {
+    return _grid.at(y * _width + x);
 }
 
 const Player * World::getPlayer()   const { return _player;   }

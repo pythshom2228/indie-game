@@ -32,10 +32,7 @@ public:
     void addEntity(const Entity & entity);
     void removeEntity(const std::string & entity_name);
     
-    std::unique_ptr<Entity>& operator[](int idx);
-    const std::unique_ptr<Entity>& operator[](int idx) const;
-    
-    Tile getTile(int x, int y) const;
+    int getTileId(int x, int y) const;
     const Player * getPlayer() const;
     std::string getFilename() const;
     Texture2D getTileset() const;

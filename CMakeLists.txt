@@ -13,11 +13,11 @@ set(SOURCES
     src/main.cpp
     src/game.cpp
     src/game_menu.cpp
+    src/collidable.cpp
     
     src/Entity/entity.cpp
     src/Entity/npc.cpp
     src/Entity/player.cpp
-
 
     src/World/world.cpp
     src/World/tile.cpp

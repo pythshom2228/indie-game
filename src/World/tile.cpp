@@ -1,7 +1,7 @@
 #include "tile.hpp"
 
-Tile::Tile(const Rectangle & source_rec)
-: _source_rec(source_rec) {
+Tile::Tile(const Rectangle & source_rec, const TileClass & tile_class)
+: _source_rec(source_rec), _tile_class(tile_class) {
 
 }
 

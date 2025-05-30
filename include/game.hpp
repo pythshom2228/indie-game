@@ -20,6 +20,10 @@ private:
     void loadWorld(const std::string& _name);
     void update();
     void pause();
+    
+    void playerHandleInput();
+    bool checkCollisionWithWorld(const Rectangle &rect) const;
+    bool isSolidTile(int tileId) const;
 
     bool isRunning = false;
     const size_t window_width;
