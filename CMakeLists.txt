@@ -21,6 +21,7 @@ set(SOURCES
 
     src/World/world.cpp
     src/World/tile.cpp
+    src/World/grid.cpp
 
     src/UI/ui_element.cpp
 )
