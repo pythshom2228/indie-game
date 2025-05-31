@@ -55,8 +55,9 @@ void Game::update() {
         }
     }
 }
-//
-void Game::playerHandleInput() {
+
+void Game::playerHandleInput() { // 3, 4, 5, 11, 12, 14
+
     if (IsKeyDown(KEY_A)) 
     {
         _player.move(-3.0f, 0.0f);
