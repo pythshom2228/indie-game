@@ -1,9 +1,7 @@
-#pragma once
-
 #include "entity.hpp"
 #include <iostream>
 
-Entity::Entity(const std::vector<Texture2D> & textures, const Vector2 & position)
+Entity::Entity(const std::array<Texture2D,DIRECTIONS_COUNT> & textures, const Vector2 & position)
 : _textures(textures), _position(position), _rotation_state(RotationStates::Up) {}
 
 void Entity::move(const Vector2& dest) {
@@ -19,9 +17,17 @@ void Entity::move(float x, float y) {
     
     if (y > 0.0f) {
         _rotation_state = RotationStates::Down;
-    } else if (y < 0.0f) {
+    } 
+    else if (y < 0.0f) {
         _rotation_state = RotationStates::Up;
     }
+    else if (x < 0.0f) {
+        _rotation_state = RotationStates::Left;
+    }
+    else if (x > 0.0f) {
+        _rotation_state = RotationStates::Right;
+    }
+    
 }
 
 void Entity::updateHitboxes(float x, float y) {
@@ -64,9 +70,8 @@ void update() {
 }
 
 void Entity::render() const {
-    size_t texture_index = static_cast<size_t>(_rotation_state);
     
-    Texture2D texture = _textures[texture_index];
+    Texture2D texture = _textures[_rotation_state];
     
     Rectangle source_rect = {
         0.0f, 0.0f,                       // Начало текстуры (x, y)

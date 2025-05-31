@@ -41,7 +41,7 @@ void Button::update() {
     }
 }
 
-void Button::render() {
+void Button::render() const {
     DrawTexture(_texture,_box.x,_box.y, _color_state);
 }
 
@@ -62,14 +62,14 @@ void Button::setPosition(float x, float y) {
     _box.y = y;
 }
 
-Vector2 Button::getPosition() {
+Vector2 Button::getPosition() const {
     return Vector2 {_box.x,_box.y};
 }
 
-float Button::getWidth() {
+float Button::getWidth() const {
     return _box.width;
 }
 
-float Button::getHeight() {
+float Button::getHeight() const {
     return _box.height;
 }

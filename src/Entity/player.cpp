@@ -2,16 +2,19 @@
 
 Player::Player() 
 : Entity({}), _name("Renat"), _hp(3), _current_quest(nullptr) {
-    _textures.push_back(LoadTexture(RES_PATH"player/WalkUpFirst.png"));
-    _textures.push_back(LoadTexture(RES_PATH"player/walkUpSecond.png"));
-    _textures.push_back(LoadTexture(RES_PATH"player/WalkDownFirst.png"));
-    _textures.push_back(LoadTexture(RES_PATH"player/WalkDownSecond.png"));
+    
+    _textures[RotationStates::Up] = LoadTexture(RES_PATH"player/WalkUpFirst.png");
+    _textures[RotationStates::Right] = LoadTexture(RES_PATH"player/StandingRight.png");
+    _textures[RotationStates::Down] = LoadTexture(RES_PATH"player/StandingDown.png");
+    _textures[RotationStates::Left] = LoadTexture(RES_PATH"player/StandingLeft.png");
+    
+
     initHitbox();
 
     scale(0.15f, 0.15f);
 }
 
-Player::Player(const std::vector<Texture2D> _textures, const std::string & name,const Vector2 & position, int hp) 
+Player::Player(const std::array<Texture2D,DIRECTIONS_COUNT> _textures, const std::string & name,const Vector2 & position, int hp) 
 : Entity(_textures, position), _name(name), _hp(hp), _current_quest(nullptr) {}
 
 void Player::update() {

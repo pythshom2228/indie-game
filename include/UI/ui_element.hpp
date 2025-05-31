@@ -13,16 +13,16 @@ public:
 
     void update();
 
-    void render();
+    void render() const;
 
     void setActions(const std::function<void()>& action_on_click, const std::function<void()>& action_hover);
     
     void setPosition(const Vector2& position);
     void setPosition(float x, float y);
 
-    Vector2 getPosition();
-    float getWidth();
-    float getHeight();
+    Vector2 getPosition() const;
+    float getWidth() const;
+    float getHeight() const;
 
 private:
 

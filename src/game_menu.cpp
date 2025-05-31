@@ -57,7 +57,7 @@ void StartMenu::update() {
     _exit_button->update();
 }
 
-void StartMenu::render() {
+void StartMenu::render() const {
     DrawTexture(_background,0,0,WHITE);
 
     _start_button->render();
@@ -74,6 +74,6 @@ void PauseMenu::update() {
 
 }
 
-void PauseMenu::render() {
+void PauseMenu::render() const {
     
 }

@@ -4,7 +4,7 @@
 #include "entity.hpp"
 #include "collidable.hpp"
 
-enum TileClass {
+enum class TileClass {
     Floor = 0,
     Wall = 1
 };

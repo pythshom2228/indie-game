@@ -1,9 +1,8 @@
 #pragma once
 
 #include <raylib.h>
-#include <vector>
+#include <array>
 #include <string>
-
 #include "animation_component.hpp"
 #include "collidable.hpp"
 #include "constants.hpp"
@@ -11,7 +10,7 @@
 class Entity : public Collidable {
 public:
 
-    Entity(const std::vector<Texture2D> & textures, const Vector2 & position = {0.0f, 0.0f});
+    Entity(const std::array<Texture2D,DIRECTIONS_COUNT>& textures, const Vector2 & position = {0.0f, 0.0f});
 
     void move(const Vector2& dest);
     void move(float x, float y);
@@ -31,7 +30,7 @@ protected:
 
     void initHitbox();
 
-    std::vector<Texture2D> _textures;
+    std::array<Texture2D, DIRECTIONS_COUNT> _textures;
     RotationStates _rotation_state;
 
     Vector2 _position;

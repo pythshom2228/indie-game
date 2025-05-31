@@ -14,7 +14,7 @@ public:
     GameMenu();
     
     virtual void update() = 0;
-    virtual void render() = 0;
+    virtual void render() const = 0;
     bool isActive();
 
     virtual ~GameMenu() {};
@@ -32,7 +32,7 @@ public:
 
     void update() override;
 
-    void render() override;
+    void render() const override;
 
 private:
 
@@ -47,6 +47,6 @@ private:
 class PauseMenu : public GameMenu {
 public:
     void update() override;
-    void render() override;
+    void render() const override;
 
 };
