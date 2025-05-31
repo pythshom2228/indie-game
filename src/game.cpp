@@ -57,14 +57,7 @@ void Game::update() {
     }
 }
 
-bool isCollision(int tileId) {
-    if (tileId == 3 || tileId == 4 || tileId == 5 || tileId == 11 || tileId == 12 || tileId == 13 || tileId == 14 || tileId == 17 || tileId == 18) {
-        std::cout << "DETECTED TOUCH ON " << tileId << " TILEID\n";
-        return true;
-    }
 
-    return false;
-}
 
 void Game::playerHandleInput() { // 3, 4, 5, 11, 12, 14
     if (IsKeyDown(KEY_A)) 
