@@ -118,9 +118,9 @@ void Game::playerHandleInput() {
 
         if 
         (
-            _world.getTile(x1, y1).getTileClass() == TileClass::Wall ||
-            _world.getTile(x2, y2).getTileClass() == TileClass::Wall ||
-            _world.getTile(x3, y3).getTileClass() == TileClass::Wall ||
+            _world.getTile(x1, y1).getTileClass() == TileClass::Wall ||//
+            _world.getTile(x2, y2).getTileClass() == TileClass::Wall ||//
+            _world.getTile(x3, y3).getTileClass() == TileClass::Wall ||//
             _world.getTile(x4, y4).getTileClass() == TileClass::Wall
         ) 
         {
