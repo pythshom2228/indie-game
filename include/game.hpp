@@ -22,8 +22,9 @@ private:
     void render();
     void loadWorld(const std::string& _name);
     void update();
+    bool checkCollision(Rectangle hitbox);
     void pause();
-    
+
     void playerHandleInput();
     bool checkCollisionWithWorld(const Rectangle &rect) const;
     bool isSolidTile(int tileId) const;
