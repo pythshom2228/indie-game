@@ -15,34 +15,53 @@ Grid::Grid(const std::string &filename) {
     loadFromFile(filename);
 }
 
-bool Grid::checkCollision(const Rectangle & hitbox) {
+bool Grid::checkCollision(const std::vector<Rectangle> hitboxes, bool isUp) {
 
-    int x1 = hitbox.x / 256.0f;
-    int y1 = hitbox.y / 256.0f;
+    for (const auto & hitbox : hitboxes) {
 
-    int x2 = (hitbox.x + hitbox.width) / 256.0f;
-    int y2 = hitbox.y / 256.0f;
+        int x1 = hitbox.x / 256.0f;
+        int y1 = hitbox.y / 256.0f;
 
-    int x3 = (hitbox.x + hitbox.width) / 256.0f;
-    int y3 = (hitbox.y + hitbox.height) / 256.0f;
+        int x2 = (hitbox.x + hitbox.width) / 256.0f;
+        int y2 = hitbox.y / 256.0f;
 
-    int x4 = hitbox.x / 256.0f;
-    int y4 = (hitbox.y + hitbox.height) / 256.0f;
+        int x3 = (hitbox.x + hitbox.width) / 256.0f;
+        int y3 = (hitbox.y + hitbox.height) / 256.0f;
 
-    if 
-    (
-        _tiles[(*this)[y1][x1]].getTileClass() == TileClass::Wall ||
-        _tiles[(*this)[y2][x2]].getTileClass() == TileClass::Wall ||
-        _tiles[(*this)[y3][x3]].getTileClass() == TileClass::Wall ||
-        _tiles[(*this)[y4][x4]].getTileClass() == TileClass::Wall
-    ) 
-    {
-        return true;
+        int x4 = hitbox.x / 256.0f;
+        int y4 = (hitbox.y + hitbox.height) / 256.0f;
+
+        if (isUp) 
+        {
+            if 
+            (
+                _tiles[(*this)[y1][x1]].getTileClass() == TileClass::WallUp ||
+                _tiles[(*this)[y2][x2]].getTileClass() == TileClass::WallUp ||
+                _tiles[(*this)[y3][x3]].getTileClass() == TileClass::WallUp ||
+                _tiles[(*this)[y4][x4]].getTileClass() == TileClass::WallUp
+            ) 
+            {
+                return true;
+            }
+        }
+        else 
+        {
+            if 
+            (
+                _tiles[(*this)[y1][x1]].getTileClass() == TileClass::Wall ||
+                _tiles[(*this)[y2][x2]].getTileClass() == TileClass::Wall ||
+                _tiles[(*this)[y3][x3]].getTileClass() == TileClass::Wall ||
+                _tiles[(*this)[y4][x4]].getTileClass() == TileClass::Wall
+            ) 
+            {
+                return true;
+            }
+        }
     }
     return false;
 }
 
-void Grid::render() const {
+void Grid::render(int layer) const {
     const int tileWidth = 256;
     const int tileHeight = 256;
     
@@ -58,7 +77,17 @@ void Grid::render() const {
                 static_cast<float>(tileHeight)
             };
             
-            _tiles[tileIndex].render(_tileset, destRec);
+            if (layer == 0 && 
+                (_tiles[tileIndex].getTileClass() == TileClass::Floor || 
+                _tiles[tileIndex].getTileClass() == TileClass::WallUp)) 
+            {
+                _tiles[tileIndex].render(_tileset, destRec);
+            }
+            if (layer == 1 && _tiles[tileIndex].getTileClass() == TileClass::Wall) 
+            {
+                _tiles[tileIndex].render(_tileset, destRec);
+            }
+            
         }
     }
 }
@@ -118,9 +147,6 @@ bool Grid::loadFromFile(const std::string & filename) {
     _width = mapSize.x;
     _height = mapSize.y;
 
-    const int tileWidth = 256;
-    const int tileHeight = 256;
-
     const auto& tilesets = map.getTilesets();
     if (tilesets.empty()) {
         return false;
@@ -151,47 +177,59 @@ bool Grid::loadFromFile(const std::string & filename) {
             TileClass tile_class;
             
             if (tileLayer.getName() == "Floor") tile_class = TileClass::Floor;
-            else tile_class = TileClass::Wall;
+            else if (tileLayer.getName() == "Wall") tile_class = TileClass::Wall;
+            else tile_class = TileClass::WallUp;
 
             for (unsigned int y = 0; y < mapSize.y; ++y) {
                 for (unsigned int x = 0; x < mapSize.x; ++x) {
                     const auto& tile = tiles[y * mapSize.x + x];
                     if (tile.ID == 0) continue;
 
-                    // Если тайл с таким ID еще не добавлен в _tiles
-                    if (tileIdToIndex.find(tile.ID) == tileIdToIndex.end()) {
+
                         const unsigned int tilesetColumns = tileset.getColumnCount();
                         const unsigned int relativeID = tile.ID - tileset.getFirstGID();
                         
-                        int tilesetX = (relativeID % tilesetColumns) * tileWidth;
-                        int tilesetY = (relativeID / tilesetColumns) * tileHeight;
+                        int tilesetX = (relativeID % tilesetColumns) * tileset.getTileSize().x;
+                        int tilesetY = (relativeID / tilesetColumns) * tileset.getTileSize().y;
                         
                         Rectangle sourceRec = {
                             static_cast<float>(tilesetX),
                             static_cast<float>(tilesetY),
-                            static_cast<float>(tileWidth),
-                            static_cast<float>(tileHeight)
+                            static_cast<float>(tileset.getTileSize().x),
+                            static_cast<float>(tileset.getTileSize().y)
                         };
+
+                        // Получаем хитбокс из тайлсета (если есть)
+                        Rectangle hitbox = {0, 0, static_cast<float>(tileset.getTileSize().x), static_cast<float>(tileset.getTileSize().y)};
+                        
+                        // Ищем тайл в тайлсете
+                        const auto& tileInfo = tileset.getTile(tile.ID - tileset.getFirstGID());
+                        if (tileInfo) {
+                            // Берем первый объект (хитбокс) если он есть
+                            const auto& objects = tileInfo->objectGroup.getObjects();
+                            if (!objects.empty()) {
+                                const auto& obj = objects[0];
+                                hitbox = {
+                                    static_cast<float>(obj.getPosition().x),
+                                    static_cast<float>(obj.getPosition().y),
+                                    static_cast<float>(obj.getAABB().width),
+                                    static_cast<float>(obj.getAABB().height)
+                                };
+                            }
+                        }
 
                         // Добавляем тайл в вектор и запоминаем его индекс
                         tileIdToIndex[tile.ID] = _tiles.size();
                         _tiles.emplace_back(sourceRec, tile_class);
                         _tiles.back().setId(tile.ID); // Сохраняем оригинальный ID
-                    }
+                        _tiles.back().setHitbox(hitbox); // Устанавливаем хитбокс
+                    
 
                     // Записываем индекс тайла в grid
                     _grid[y * _width + x] = tileIdToIndex[tile.ID];
                 }
             }
         }
-    }
-
-    // Вывод grid для отладки
-    for (int i = 0; i < _height; ++i) {
-        for (int j = 0; j < _width; ++j) {
-            std::cout << _grid[i * _width + j] << " ";
-        }
-        std::cout << std::endl;
     }
 
     return true;

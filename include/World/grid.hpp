@@ -12,11 +12,11 @@ public:
 
     Grid(const std::string & filename);
 
-    bool checkCollision(const Rectangle & hitbox);
+    bool checkCollision(const std::vector<Rectangle> hitboxes, bool isUp);
 
     bool loadFromFile(const std::string & filename);
 
-    void render() const;
+    void render(int layer) const;
 
     Proxy operator[](int row);
     const Proxy operator[](int row) const;

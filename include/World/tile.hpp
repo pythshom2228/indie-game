@@ -8,7 +8,8 @@
 
 enum class TileClass {
     Floor = 0,
-    Wall = 1
+    Wall = 1,
+    WallUp = 2
 };
 
 class Tile : public Collidable {

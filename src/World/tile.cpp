@@ -12,6 +12,12 @@ void Tile::render(const Texture2D & tileset, const Rectangle & dest_rec) const {
         {dest_rec.x, dest_rec.y},
         WHITE
     );
+
+    DrawRectangleLinesEx(
+        {_hitbox.x + dest_rec.x, _hitbox.y + dest_rec.y, 
+        _hitbox.width + dest_rec.width, _hitbox.height + dest_rec.height}, 
+        3.0f, RED
+    );
 }
 
 TileClass Tile::getTileClass() const { return _tile_class; }

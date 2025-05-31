@@ -18,9 +18,9 @@ Game::Game()
 
 void Game::start() {
 
-    _world.initWorld("dog_world.tmx");
+    _world.initWorld("dog_world6.tmx");
     _world.setPlayer(&_player);
-    _player.setPosition(0.0f, 0.0f);
+    _player.setPosition(3 * 256, 17 * 256);
 
     while(!WindowShouldClose() && _isRunning) {
         update();
@@ -43,7 +43,6 @@ void Game::update() {
 
         playerHandleInput();
 
-
         Vector2 playerPos = _player.getPosition();
         _camera.target.x = Lerp(_camera.target.x, playerPos.x, 0.05f);
         _camera.target.y = Lerp(_camera.target.y, playerPos.y, 0.05f);
@@ -63,8 +62,7 @@ void Game::playerHandleInput() {
     {
         _player.move(-3.0f, 0.0f);
 
-        if (_world.getGrid().checkCollision(_player.getHitbox())) {
-            std::cout << "COLLISION_DETECTED" << std::endl;
+        if (_world.getGrid().checkCollision({_player.getUpHitbox(), _player.getDownHitbox()}, false)) {
             _player.setPosition(_player.getPosition().x + 3.0f, _player.getPosition().y);
         }
     }
@@ -72,8 +70,7 @@ void Game::playerHandleInput() {
     {
         _player.move(3.0f, 0.0f);
 
-        if (_world.getGrid().checkCollision(_player.getHitbox())) {
-            std::cout << "COLLISION_DETECTED" << std::endl;
+        if (_world.getGrid().checkCollision({_player.getUpHitbox(), _player.getDownHitbox()}, false)) {
             _player.setPosition(_player.getPosition().x - 3.0f, _player.getPosition().y);
         }
     }
@@ -81,8 +78,7 @@ void Game::playerHandleInput() {
     {
         _player.move(0.0f, -3.0f);
 
-        if (_world.getGrid().checkCollision(_player.getHitbox())) {
-            std::cout << "COLLISION_DETECTED" << std::endl;
+        if (_world.getGrid().checkCollision({_player.getDownHitbox()}, true)) {
             _player.setPosition(_player.getPosition().x, _player.getPosition().y + 3.0f);
         }
     }
@@ -90,8 +86,7 @@ void Game::playerHandleInput() {
     {
         _player.move(0.0f, 3.0f);
         
-        if (_world.getGrid().checkCollision(_player.getHitbox())) {
-            std::cout << "COLLISION_DETECTED" << std::endl;
+        if (_world.getGrid().checkCollision({_player.getUpHitbox()}, false)) {
             _player.setPosition(_player.getPosition().x, _player.getPosition().y - 3.0f);
         }
     }

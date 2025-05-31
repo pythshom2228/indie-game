@@ -32,9 +32,9 @@ bool World::initWorld(const std::string &filename) {
 void World::render() const
 {
 
-    _grid.render();
-
+    _grid.render(0);
     _player->render();
+    _grid.render(1);
 }
 
 void World::update() {
