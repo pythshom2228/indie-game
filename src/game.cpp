@@ -55,7 +55,7 @@ void Game::update() {
         }
     }
 }
-
+//
 void Game::playerHandleInput() {
     if (IsKeyDown(KEY_A)) 
     {
