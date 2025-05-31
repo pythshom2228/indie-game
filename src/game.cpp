@@ -122,7 +122,7 @@ void Game::playerHandleInput() {
 
 void Game::render() {
     BeginDrawing();
-    ClearBackground(WHITE);
+    ClearBackground(BLACK);
 
     if(_menu->isActive()) {
         _menu->render();

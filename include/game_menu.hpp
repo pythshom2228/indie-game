@@ -1,10 +1,7 @@
 #pragma once
 
 #include <raylib.h>
-#include <memory>
-#include <game.hpp>
 #include <UI/ui_element.hpp>
-#include <optional>
 
 class Game;
 
@@ -38,8 +35,19 @@ private:
 
     bool& _isGameRunning;
     Music _background_music;
-    std::optional<Button> _start_button;
-    std::optional<Button> _exit_button;
+    
+
+    Button _start_button;
+    Button _exit_button;
+
+    const Button* _selected_button = &_start_button;
+    
+    struct {
+        Texture2D texture;
+        float x_pos;
+        float y_pos;
+    } _arrow;
+    
     Texture2D _background;
 };
 

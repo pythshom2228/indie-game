@@ -1,4 +1,5 @@
 #include "game_menu.hpp"
+#include "constants.hpp"
 
 GameMenu::GameMenu() : _is_active(true) {}
 
@@ -8,43 +9,63 @@ bool GameMenu::isActive() {
 
 
 
-StartMenu::StartMenu(bool& isGameRunning) : _isGameRunning(isGameRunning) {
+StartMenu::StartMenu(bool& isGameRunning) 
+:   _isGameRunning(isGameRunning), 
+    _start_button(Vector2 {0,0}, LoadTexture(RES_PATH"UI/StartButton.png")),
+    _exit_button(Vector2 {0,0}, LoadTexture(RES_PATH"UI/ExitButton.png")) {
+
     Sound button_hover_sound = LoadSound(RES_PATH"UI/ButtonPressed.mp3");
-    const Texture& start_button_texture = LoadTexture(RES_PATH"UI/StartButton.png");
-    const Texture& exit_button_texture = LoadTexture(RES_PATH"UI/ExitButton.png");
-
-    _start_button = Button(Vector2{0,0}, start_button_texture);
-
-    _exit_button = Button(Vector2{0,0}, exit_button_texture);
     
-    Button& startb_r = _start_button.value(); 
-    Button& exitb_r = _exit_button.value();
-    
-    startb_r.setActions(
+    _start_button.setActionOnClick(
+        KEY_ENTER,
         [this]() {
             this->_is_active = false;
-        },
-        [this,button_hover_sound]() {
-            PlaySound(button_hover_sound);
         }
     );
-    exitb_r.setActions(
+
+    _exit_button.setActionOnClick(
+        KEY_ENTER,
         [this]() {
             this->_isGameRunning = false;
+        }
+    );
+    
+    auto isMouseOnButtonStart = _start_button.getButtonSelection();
+    auto isMouseOnButtonExit = _exit_button.getButtonSelection();
+
+    _start_button.setSelection(
+        [this]() -> bool {
+            return _selected_button == &_start_button;
         },
         [this,button_hover_sound]() {
             PlaySound(button_hover_sound);
         }
     );
 
-    startb_r.setPosition(250.0f,190.0f);
-    exitb_r.setPosition(
-        startb_r.getPosition().x,
-        startb_r.getPosition().y + startb_r.getHeight()
+    _exit_button.setSelection(
+        [this]() -> bool {
+            return _selected_button == &_exit_button;
+        },
+        [this,button_hover_sound]() {
+            PlaySound(button_hover_sound);
+        }
+    );
+
+    _start_button.setPosition(270.0f,190.0f);
+
+    _exit_button.setPosition(
+        _start_button.getPosition().x,
+        _start_button.getPosition().y + _start_button.getHeight()
     );
 
     _background = LoadTexture(RES_PATH"UI/StartMenuBackground.png");
-//StartMenuBackgroundMusic.mp3
+
+    _arrow.texture = LoadTexture(RES_PATH"UI/Arrow.png");
+    _arrow.x_pos = _start_button.getPosition().x - _arrow.texture.width;
+    _arrow.y_pos = _start_button.getPosition().y;
+    
+
+    //StartMenuBackgroundMusic.mp3
     //_background_music = LoadMusicStream(RES_PATH"UI/StartMenuBackgroundMusic.mp3");
     //_background_music.looping = true;
     
@@ -52,16 +73,29 @@ StartMenu::StartMenu(bool& isGameRunning) : _isGameRunning(isGameRunning) {
 }
 
 void StartMenu::update() {
+        if(IsKeyPressed(KEY_UP)) {
+            _selected_button = &_start_button;
+            float dy = _exit_button.getHeight();
+            if(_arrow.y_pos - dy >= _start_button.getPosition().y)
+                _arrow.y_pos -= dy;
+        }
+        else if(IsKeyPressed(KEY_DOWN)) {
+            _selected_button = &_exit_button;
+            float dy = _exit_button.getHeight();
+            if(_arrow.y_pos + dy < _exit_button.getPosition().y)
+                _arrow.y_pos += dy;
+        }
 
-    _start_button->update();
-    _exit_button->update();
+    _start_button.update();
+    _exit_button.update();
 }
 
 void StartMenu::render() const {
     DrawTexture(_background,0,0,WHITE);
+    _start_button.render();
+    _exit_button.render();
+    DrawTexture(_arrow.texture,_arrow.x_pos,_arrow.y_pos,WHITE);
 
-    _start_button->render();
-    _exit_button->render();
 }
 
 StartMenu::~StartMenu() {

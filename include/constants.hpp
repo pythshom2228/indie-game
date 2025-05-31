@@ -1,5 +1,6 @@
 #pragma once
 #include <raylib.h>
+
 #define RES_PATH "../resources/"
 #define DIRECTIONS_COUNT 4
 
