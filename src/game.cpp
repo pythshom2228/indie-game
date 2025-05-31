@@ -30,6 +30,7 @@ void Game::start() {
     CloseWindow();
 }
 
+
 void Game::update() {
 
     if(_menu->isActive()) {
@@ -56,40 +57,40 @@ void Game::update() {
     }
 }
 
-void Game::playerHandleInput() { // 3, 4, 5, 11, 12, 14
+bool Game::checkCollision(Rectangle hitbox) {
+
+    int x1 = hitbox.x / 256.0f;
+    int y1 = hitbox.y / 256.0f;
+
+    int x2 = (hitbox.x + hitbox.width) / 256.0f;
+    int y2 = hitbox.y / 256.0f;
+
+    int x3 = (hitbox.x + hitbox.width) / 256.0f;
+    int y3 = (hitbox.y + hitbox.height) / 256.0f;
+
+    int x4 = hitbox.x / 256.0f;
+    int y4 = (hitbox.y + hitbox.height) / 256.0f;
+
+    if 
+    (
+        _world.getTile(x1, y1).getTileClass() == TileClass::Wall ||
+        _world.getTile(x2, y2).getTileClass() == TileClass::Wall ||
+        _world.getTile(x3, y3).getTileClass() == TileClass::Wall ||
+        _world.getTile(x4, y4).getTileClass() == TileClass::Wall
+    ) 
+    {
+        return true;
+    }
+    return false;
+}
+
+void Game::playerHandleInput() {
 
     if (IsKeyDown(KEY_A)) 
     {
         _player.move(-3.0f, 0.0f);
 
-        Rectangle hitbox = _player.getHitbox();
-
-        int x1 = hitbox.x / 256.0f;
-        int y1 = hitbox.y / 256.0f;
-
-        int x2 = (hitbox.x + hitbox.width) / 256.0f;
-        int y2 = hitbox.y / 256.0f;
-
-        int x3 = (hitbox.x + hitbox.width) / 256.0f;
-        int y3 = (hitbox.y + hitbox.height) / 256.0f;
-
-        int x4 = hitbox.x / 256.0f;
-        int y4 = (hitbox.y + hitbox.height) / 256.0f;
-
-        std::cout << "____________________________________________\n";
-        std::cout << "x1: " << x1 << " y1: " << y1 << '\n';
-        std::cout << "x2: " << x2 << " y2: " << y2 << '\n';
-        std::cout << "x3: " << x3 << " y3: " << y3 << '\n';
-        std::cout << "x4: " << x4 << " y4: " << y4 << '\n';
-
-        if 
-        (//
-            _world.getTile(x1, y1).getTileClass() == TileClass::Wall ||
-            _world.getTile(x2, y2).getTileClass() == TileClass::Wall ||
-            _world.getTile(x3, y3).getTileClass() == TileClass::Wall ||
-            _world.getTile(x4, y4).getTileClass() == TileClass::Wall
-        ) 
-        {
+        if (checkCollision(_player.getHitbox())) {
             _player.setPosition(_player.getPosition().x + 3.0f, _player.getPosition().y);
         }
     }
@@ -97,69 +98,15 @@ void Game::playerHandleInput() { // 3, 4, 5, 11, 12, 14
     {
         _player.move(3.0f, 0.0f);
 
-        Rectangle hitbox = _player.getHitbox();
-
-        int x1 = hitbox.x / 256.0f;
-        int y1 = hitbox.y / 256.0f;
-
-        int x2 = (hitbox.x + hitbox.width) / 256.0f;
-        int y2 = hitbox.y / 256.0f;
-
-        int x3 = (hitbox.x + hitbox.width) / 256.0f;
-        int y3 = (hitbox.y + hitbox.height) / 256.0f;
-
-        int x4 = hitbox.x / 256.0f;
-        int y4 = (hitbox.y + hitbox.height) / 256.0f;
-
-        std::cout << "____________________________________________\n";
-        std::cout << "x1: " << x1 << " y1: " << y1 << '\n';
-        std::cout << "x2: " << x2 << " y2: " << y2 << '\n';
-        std::cout << "x3: " << x3 << " y3: " << y3 << '\n';
-        std::cout << "x4: " << x4 << " y4: " << y4 << '\n';
-
-        if 
-        (
-            _world.getTile(x1, y1).getTileClass() == TileClass::Wall ||//
-            _world.getTile(x2, y2).getTileClass() == TileClass::Wall ||//
-            _world.getTile(x3, y3).getTileClass() == TileClass::Wall ||//
-            _world.getTile(x4, y4).getTileClass() == TileClass::Wall
-        ) 
-        {
+        if (checkCollision(_player.getHitbox())) {
             _player.setPosition(_player.getPosition().x - 3.0f, _player.getPosition().y);
         }
     }
     if (IsKeyDown(KEY_W)) 
     {
         _player.move(0.0f, -3.0f);
-        
-        Rectangle hitbox = _player.getHitbox();
 
-        int x1 = hitbox.x / 256.0f;
-        int y1 = hitbox.y / 256.0f;
-
-        int x2 = (hitbox.x + hitbox.width) / 256.0f;
-        int y2 = hitbox.y / 256.0f;
-
-        int x3 = (hitbox.x + hitbox.width) / 256.0f;
-        int y3 = (hitbox.y + hitbox.height) / 256.0f;
-
-        int x4 = hitbox.x / 256.0f;
-        int y4 = (hitbox.y + hitbox.height) / 256.0f;
-
-        std::cout << "____________________________________________\n";
-        std::cout << "x1: " << x1 << " y1: " << y1 << '\n';
-        std::cout << "x2: " << x2 << " y2: " << y2 << '\n';
-        std::cout << "x3: " << x3 << " y3: " << y3 << '\n';
-        std::cout << "x4: " << x4 << " y4: " << y4 << '\n';
-
-        if 
-        (
-            _world.getTile(x1, y1).getTileClass() == TileClass::Wall ||
-            _world.getTile(x2, y2).getTileClass() == TileClass::Wall ||
-            _world.getTile(x3, y3).getTileClass() == TileClass::Wall ||
-            _world.getTile(x4, y4).getTileClass() == TileClass::Wall
-        ) 
-        {
+        if (checkCollision(_player.getHitbox())) {
             _player.setPosition(_player.getPosition().x, _player.getPosition().y + 3.0f);
         }
     }
@@ -167,34 +114,7 @@ void Game::playerHandleInput() { // 3, 4, 5, 11, 12, 14
     {
         _player.move(0.0f, 3.0f);
         
-        Rectangle hitbox = _player.getHitbox();
-
-        int x1 = hitbox.x / 256.0f;
-        int y1 = hitbox.y / 256.0f;
-
-        int x2 = (hitbox.x + hitbox.width) / 256.0f;
-        int y2 = hitbox.y / 256.0f;
-
-        int x3 = (hitbox.x + hitbox.width) / 256.0f;
-        int y3 = (hitbox.y + hitbox.height) / 256.0f;
-
-        int x4 = hitbox.x / 256.0f;
-        int y4 = (hitbox.y + hitbox.height) / 256.0f;
-
-        std::cout << "____________________________________________\n";
-        std::cout << "x1: " << x1 << " y1: " << y1 << '\n';
-        std::cout << "x2: " << x2 << " y2: " << y2 << '\n';
-        std::cout << "x3: " << x3 << " y3: " << y3 << '\n';
-        std::cout << "x4: " << x4 << " y4: " << y4 << '\n';
-
-        if 
-        (
-            _world.getTile(x1, y1).getTileClass() == TileClass::Wall ||
-            _world.getTile(x2, y2).getTileClass() == TileClass::Wall ||
-            _world.getTile(x3, y3).getTileClass() == TileClass::Wall ||
-            _world.getTile(x4, y4).getTileClass() == TileClass::Wall
-        ) 
-        {
+        if (checkCollision(_player.getHitbox())) {
             _player.setPosition(_player.getPosition().x, _player.getPosition().y - 3.0f);
         }
     }
