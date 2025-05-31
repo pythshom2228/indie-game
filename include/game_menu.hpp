@@ -27,6 +27,8 @@ class StartMenu : public GameMenu {
 public:
   
     StartMenu(bool& isGameRunning);
+    
+    ~StartMenu();
 
     void update() override;
 
@@ -35,6 +37,7 @@ public:
 private:
 
     bool& _isGameRunning;
+    Music _background_music;
     std::optional<Button> _start_button;
     std::optional<Button> _exit_button;
     Texture2D _background;
