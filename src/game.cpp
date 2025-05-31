@@ -27,6 +27,7 @@ void Game::start() {
         render();
     }
 
+    CloseAudioDevice();
     CloseWindow();
 }
 
@@ -56,7 +57,9 @@ void Game::update() {
     }
 }
 
-void Game::playerHandleInput() {
+
+
+void Game::playerHandleInput() { // 3, 4, 5, 11, 12, 14
     if (IsKeyDown(KEY_A)) 
     {
         _player.move(-3.0f, 0.0f);
@@ -83,10 +86,10 @@ void Game::playerHandleInput() {
 
         if 
         (
-            _world.getTile(x1, y1).getTileClass() == TileClass::Wall ||
-            _world.getTile(x2, y2).getTileClass() == TileClass::Wall ||
-            _world.getTile(x3, y3).getTileClass() == TileClass::Wall ||
-            _world.getTile(x4, y4).getTileClass() == TileClass::Wall
+            isCollision(_world.getTileId(x1, y1)) ||
+            isCollision(_world.getTileId(x2, y2)) ||
+            isCollision(_world.getTileId(x3, y3)) ||
+            isCollision(_world.getTileId(x4, y4))
         ) 
         {
             _player.setPosition(_player.getPosition().x + 3.0f, _player.getPosition().y);
@@ -118,10 +121,10 @@ void Game::playerHandleInput() {
 
         if 
         (
-            _world.getTile(x1, y1).getTileClass() == TileClass::Wall ||
-            _world.getTile(x2, y2).getTileClass() == TileClass::Wall ||
-            _world.getTile(x3, y3).getTileClass() == TileClass::Wall ||
-            _world.getTile(x4, y4).getTileClass() == TileClass::Wall
+            isCollision(_world.getTileId(x1, y1)) ||
+            isCollision(_world.getTileId(x2, y2)) ||
+            isCollision(_world.getTileId(x3, y3)) ||
+            isCollision(_world.getTileId(x4, y4))
         ) 
         {
             _player.setPosition(_player.getPosition().x - 3.0f, _player.getPosition().y);
@@ -153,10 +156,10 @@ void Game::playerHandleInput() {
 
         if 
         (
-            _world.getTile(x1, y1).getTileClass() == TileClass::Wall ||
-            _world.getTile(x2, y2).getTileClass() == TileClass::Wall ||
-            _world.getTile(x3, y3).getTileClass() == TileClass::Wall ||
-            _world.getTile(x4, y4).getTileClass() == TileClass::Wall
+            isCollision(_world.getTileId(x1, y1)) ||
+            isCollision(_world.getTileId(x2, y2)) ||
+            isCollision(_world.getTileId(x3, y3)) ||
+            isCollision(_world.getTileId(x4, y4))
         ) 
         {
             _player.setPosition(_player.getPosition().x, _player.getPosition().y + 3.0f);
@@ -188,10 +191,10 @@ void Game::playerHandleInput() {
 
         if 
         (
-            _world.getTile(x1, y1).getTileClass() == TileClass::Wall ||
-            _world.getTile(x2, y2).getTileClass() == TileClass::Wall ||
-            _world.getTile(x3, y3).getTileClass() == TileClass::Wall ||
-            _world.getTile(x4, y4).getTileClass() == TileClass::Wall
+            isCollision(_world.getTileId(x1, y1)) ||
+            isCollision(_world.getTileId(x2, y2)) ||
+            isCollision(_world.getTileId(x3, y3)) ||
+            isCollision(_world.getTileId(x4, y4))
         ) 
         {
             _player.setPosition(_player.getPosition().x, _player.getPosition().y - 3.0f);
