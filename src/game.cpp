@@ -19,7 +19,7 @@ Game::Game()
 void Game::start() {
 
 
-    _world.initWorld("lobby.tmx");
+    _world.initWorld("dog_world10.tmx");
 
     _world.setPlayer(&_player);
     _player.setPosition(3 * 256, 3 * 256);
