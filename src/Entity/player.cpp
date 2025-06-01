@@ -8,10 +8,15 @@ Player::Player()
 
     scale(0.15f, 0.15f);
 
-    _textures[RotationStates::Up] = LoadTexture(RES_PATH"player/WalkUpFirst.png");
+    _textures[RotationStates::Up] = LoadTexture(RES_PATH"player/StandingUp.png");
     _textures[RotationStates::Right] = LoadTexture(RES_PATH"player/StandingRight.png");
     _textures[RotationStates::Down] = LoadTexture(RES_PATH"player/StandingDown.png");
     _textures[RotationStates::Left] = LoadTexture(RES_PATH"player/StandingLeft.png");
+
+    _animation_component.addAnimation("WalkingRight");
+    _animation_component.addAnimation("WalkingUp");
+    _animation_component.addAnimation("WalkingDown");
+    _animation_component.addAnimation("WalkingLeft");
 
     Texture2D walking_right_animation = LoadTexture(RES_PATH"player/Animations/WalkingRight.png");
     Texture2D walking_left_animation = LoadTexture(RES_PATH"player/Animations/WalkingLeft.png");
@@ -26,7 +31,7 @@ Player::Player()
         walking_right_animation.width / 2,
         walking_right_animation.height,
         2,
-        1 / _velocity
+        1 / (2*_velocity)
     );
     _animation_component.setAnimation(
         "WalkingLeft",
@@ -35,7 +40,7 @@ Player::Player()
         walking_left_animation.width / 2,
         walking_left_animation.height,
         2,
-        1 / _velocity
+        1 / (2*_velocity)
     );
     _animation_component.setAnimation(
         "WalkingUp",
@@ -44,7 +49,7 @@ Player::Player()
         walking_up_animation.width / 2,
         walking_up_animation.height,
         2,
-        1 / _velocity
+        1 / (2*_velocity)
     );
     _animation_component.setAnimation(
         "WalkingDown",
@@ -53,7 +58,7 @@ Player::Player()
         walking_down_animation.width / 2,
         walking_down_animation.height,
         2,
-        1 / _velocity
+        1 / (2*_velocity)
     );
     // e.t.c.
 
