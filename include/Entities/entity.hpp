@@ -10,7 +10,7 @@
 class Entity : public Collidable {
 public:
 
-    Entity(const std::array<Texture2D,DIRECTIONS_COUNT>& textures, const Vector2 & position = {0.0f, 0.0f});
+    Entity(const std::array<Texture2D,DIRECTIONS_COUNT>& textures = {}, const Vector2 & position = {0.0f, 0.0f});
 
     void move(const Vector2& dest);
     void move(float x, float y);
