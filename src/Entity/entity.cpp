@@ -49,13 +49,6 @@ void Entity::updateHitboxes(float x, float y) {
     _hitbox.x += x;
     _hitbox.y += y;
     
-    // Верхний хитбокс (30% высоты, расположен сверху)
-    _up_hitbox.x += x;
-    _up_hitbox.y += y; // Смещение вверх
-    
-    // Нижний хитбокс (30% высоты, расположен снизу)
-    _down_hitbox.x += x;
-    _down_hitbox.y += y; // Смещение вниз
 }
 
 void Entity::updateAnimation() {
@@ -121,7 +114,7 @@ void Entity::render() const {
         0.0f,                              // Угол поворота (если нужно)
         WHITE                              // Цвет (можно добавить поле)
     );
-    
+
 
 }
 
@@ -132,15 +125,6 @@ void Entity::initHitbox() {
         110.0f, 210.0f
     };
 
-    //Верхний хитбокс (30% высоты основного хитбокса)
-    _up_hitbox = {
-        _position.x - 55.0f, _position.y - 100.0f, 
-        110.0f, 120.0f
-    };
-    
-    // Нижний хитбокс (30% высоты основного хитбокса)
-    _down_hitbox = {
-        _position.x - 55.0f, _position.y + 65.0f, 
-        110.0f, 50.0f
-    };
+
+
 }
