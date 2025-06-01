@@ -117,7 +117,7 @@ void Entity::render() const {
 }
 
 void Entity::initHitbox() {
-    // Основной хитбокс (все тело)
+
     _hitbox = {
         _position.x - 55.0f, _position.y - 100.0f, 
         110.0f, 210.0f

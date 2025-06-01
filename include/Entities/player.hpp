@@ -13,7 +13,7 @@ public:
 
     Player(const std::array<Texture2D,DIRECTIONS_COUNT> _textures, const std::string & name,const Vector2 & position, int hp = 3);
     
-    void update() override;
+    void update();
     void render() const;
 
     void setName(const std::string & name);

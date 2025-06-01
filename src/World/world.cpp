@@ -35,11 +35,21 @@ void World::render() const
     _grid.render(Layer::Down);
     _player->render();
     _grid.render(Layer::Up);
+    
+    DrawText(TextFormat("X: %f, Y: %f", (_player->getPosition().x / 256.0f), (_player->getPosition().y / 256.0f)), _player->getPosition().x, _player->getPosition().y, 20, WHITE);
 }
 
 void World::update() {
     
     _player->update();
+
+    for (auto & interactive_object : _interactiv_objects) {
+        std::cout << "_--------------------------\n";
+        if (interactive_object.isPointInRange(_player->getPosition())) {
+            interactive_object.onInteract();
+        }
+    }
+
 }
 
 void World::reset() {
@@ -50,7 +60,15 @@ void World::addEntity(const Entity & entity) {
 
 }
 
+void World::addInteractiveObject(const InteractiveObject &interactive_object) {
+    _interactiv_objects.push_back(interactive_object);
+}
+
 void World::removeEntity(const std::string & entity_name) {
+
+}
+
+void World::removeInteractiveObject(const std::string &entity_name) {
 
 }
 

@@ -21,6 +21,17 @@ void Game::start() {
 
     _world.initWorld("lobby.tmx");
 
+    InteractiveObject io;
+
+    io.setInteract([]() -> void {
+        std::cout << "TOUCH DETECTED" << std::endl;
+        CloseWindow();
+    });
+
+    io.setPosition({3 * 256, 5 * 256});
+
+    _world.addInteractiveObject(io);
+
     _world.setPlayer(&_player);
     _player.setPosition(3 * 256, 3 * 256);
 
@@ -42,25 +53,8 @@ void Game::update() {
         _world.update();
 
         playerHandleInput();
+        updateCamera();
 
-        Vector2 playerPos = _player.getPosition();
-        _camera.target.x = Lerp(_camera.target.x, playerPos.x, 0.05f);
-        _camera.target.y = Lerp(_camera.target.y, playerPos.y, 0.05f);
-
-        // Получаем размеры карты (предполагая, что у World есть методы getMapWidth() и getMapHeight())
-        float mapWidth = _world.getGrid().getWidth() * 256.0f;  // в пикселях
-        float mapHeight = _world.getGrid().getHeight() * 256.0f; // в пикселях
-        
-        // Рассчитываем половину видимой области камеры
-        float cameraHalfWidth = (window_width / 2.0f) / _camera.zoom;
-        float cameraHalfHeight = (window_height / 2.0f) / _camera.zoom;
-        
-        // Ограничиваем камеру в пределах карты
-        _camera.target.x = Clamp(_camera.target.x, cameraHalfWidth, mapWidth - cameraHalfWidth);
-        _camera.target.y = Clamp(_camera.target.y, cameraHalfHeight, mapHeight - cameraHalfHeight);
-        
-        // Также ограничиваем зум, чтобы не было слишком маленького или большого масштаба
-        _camera.zoom = Clamp(_camera.zoom, 0.1f, 3.0f);
     }
 }
 
@@ -122,11 +116,32 @@ void Game::render() {
     
 }
 
-void Game::loadWorld(const std::string& _name) {
-    // for(auto world = _worlds.begin(); world < _worlds.end(); world++) {
-    //     if(world->getName() == _name) {
-    //         _currentWorld = world; 
-    //         return;
-    //     }
-    // }
+void Game::updateCamera() {
+    Vector2 playerPos = _player.getPosition();
+    _camera.target.x = Lerp(_camera.target.x, playerPos.x, 0.05f);
+    _camera.target.y = Lerp(_camera.target.y, playerPos.y, 0.05f);
+
+    // Получаем размеры карты (предполагая, что у World есть методы getMapWidth() и getMapHeight())
+    float mapWidth = _world.getGrid().getWidth() * 256.0f;  // в пикселях
+    float mapHeight = _world.getGrid().getHeight() * 256.0f; // в пикселях
+    
+    // Рассчитываем половину видимой области камеры
+    float cameraHalfWidth = (window_width / 2.0f) / _camera.zoom;
+    float cameraHalfHeight = (window_height / 2.0f) / _camera.zoom;
+    
+    // Ограничиваем камеру в пределах карты
+    _camera.target.x = Clamp(_camera.target.x, cameraHalfWidth, mapWidth - cameraHalfWidth);
+    _camera.target.y = Clamp(_camera.target.y, cameraHalfHeight, mapHeight - cameraHalfHeight);
+
+    if (IsKeyDown(KEY_UP)) {
+            _camera.zoom += 0.01f;
+    }
+    if (IsKeyDown(KEY_DOWN)) {
+        if (_camera.zoom > 0.7f) {
+            _camera.zoom -= 0.01f;
+        }
+    }
+    
+    // Также ограничиваем зум, чтобы не было слишком маленького или большого масштаба
+    _camera.zoom = Clamp(_camera.zoom, 0.1f, 3.0f);
 }
