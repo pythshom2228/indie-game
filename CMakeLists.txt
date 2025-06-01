@@ -23,6 +23,9 @@ set(SOURCES
     src/World/tile.cpp
     src/World/grid.cpp
 
+    src/Animation/animation.cpp
+    src/Animation/animation_component.cpp
+
     src/UI/ui_element.cpp
 )
 set(RESOURCES_DIR "resources")

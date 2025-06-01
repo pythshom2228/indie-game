@@ -2,10 +2,17 @@
 #include <iostream>
 
 Entity::Entity(const std::array<Texture2D,DIRECTIONS_COUNT> & textures, const Vector2 & position)
-: _textures(textures), _position(position), _rotation_state(RotationStates::Up) {}
+: _textures(textures), _position(position), _rotation_state(RotationStates::Down) {
+    _animation_component.addAnimation("WalkingRight");
+    _animation_component.addAnimation("WalkingUp");
+    _animation_component.addAnimation("WalkingDown");
+    _animation_component.addAnimation("WalkingLeft");
+
+}
 
 void Entity::move(const Vector2& dest) {
     move(dest.x, dest.y); 
+
 }
 
 void Entity::move(float x, float y) {
@@ -17,15 +24,22 @@ void Entity::move(float x, float y) {
     
     if (y > 0.0f) {
         _rotation_state = RotationStates::Down;
+        _animation_component.play("WalkingDown");
+
     } 
     else if (y < 0.0f) {
         _rotation_state = RotationStates::Up;
+        _animation_component.play("WalkingUp");
+
     }
     else if (x < 0.0f) {
         _rotation_state = RotationStates::Left;
+        _animation_component.play("WalkingLeft");
+
     }
     else if (x > 0.0f) {
         _rotation_state = RotationStates::Right;
+        _animation_component.play("WalkingRight");
     }
     
 }
@@ -35,6 +49,15 @@ void Entity::updateHitboxes(float x, float y) {
     _hitbox.x += x;
     _hitbox.y += y;
     
+}
+
+void Entity::updateAnimation() {
+    _animation_component.update(GetFrameTime());
+
+}
+
+void Entity::addAnimation(const std::string& name) {
+    _animation_component.addAnimation(name);
 }
 
 void Entity::scale(float width, float height) {
@@ -58,9 +81,7 @@ Vector2 Entity::getPosition() const {
     return _position;
 }
 
-void update() {
-    // Потом
-}
+
 
 void Entity::render() const {
     
@@ -93,6 +114,7 @@ void Entity::render() const {
         0.0f,                              // Угол поворота (если нужно)
         WHITE                              // Цвет (можно добавить поле)
     );
+
 
 }
 

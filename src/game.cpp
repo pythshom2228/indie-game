@@ -19,6 +19,7 @@ Game::Game()
 void Game::start() {
     
     _world.initWorld("dog_world10.tmx");
+
     _world.setPlayer(&_player);
     _player.setPosition(3 * 256, 16 * 256);
 
@@ -57,10 +58,11 @@ void Game::update() {
 }
 
 void Game::playerHandleInput() {
+    float velocity = _player.getVelocity();
 
     if (IsKeyDown(KEY_A)) 
     {
-        _player.move(-3.0f, 0.0f);
+        _player.move(-velocity, 0.0f);
 
         if (_world.getGrid().checkCollision(_player.getHitbox())) {
             _player.setPosition(_player.getPosition().x + 3.0f, _player.getPosition().y);
@@ -68,7 +70,7 @@ void Game::playerHandleInput() {
     }
     if (IsKeyDown(KEY_D)) 
     {
-        _player.move(3.0f, 0.0f);
+        _player.move(velocity, 0.0f);
 
         if (_world.getGrid().checkCollision(_player.getHitbox())) {
             _player.setPosition(_player.getPosition().x - 3.0f, _player.getPosition().y);
@@ -76,7 +78,7 @@ void Game::playerHandleInput() {
     }
     if (IsKeyDown(KEY_W)) 
     {
-        _player.move(0.0f, -3.0f);
+        _player.move(0, -velocity);
 
         if (_world.getGrid().checkCollision(_player.getHitbox())) {
             _player.setPosition(_player.getPosition().x, _player.getPosition().y + 3.0f);
@@ -84,7 +86,7 @@ void Game::playerHandleInput() {
     }
     if (IsKeyDown(KEY_S)) 
     {
-        _player.move(0.0f, 3.0f);
+        _player.move(0, velocity);
         
         if (_world.getGrid().checkCollision(_player.getHitbox())) {
             _player.setPosition(_player.getPosition().x, _player.getPosition().y - 3.0f);

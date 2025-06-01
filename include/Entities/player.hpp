@@ -12,8 +12,10 @@ public:
     Player();
 
     Player(const std::array<Texture2D,DIRECTIONS_COUNT> _textures, const std::string & name,const Vector2 & position, int hp = 3);
-    void update() override;
     
+    void update() override;
+    void render() const;
+
     void setName(const std::string & name);
     void setQuest(Quest& quest);
     void setHp(int hp);
@@ -22,6 +24,7 @@ public:
     const std::string & getName() const;
     const Quest * getQuest() const;
     int getHp() const;
+    float getVelocity();
 
     void interact();
 

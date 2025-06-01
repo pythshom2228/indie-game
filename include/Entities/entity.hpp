@@ -14,8 +14,13 @@ public:
 
     void move(const Vector2& dest);
     void move(float x, float y);
+
     void updateHitboxes(float x, float y);
+    void updateAnimation();
+
     void scale(float width, float height);
+
+    void addAnimation(const std::string& name);
 
     void setPosition(const Vector2& position);
     void setPosition(float x, float y);
@@ -36,10 +41,10 @@ protected:
     Vector2 _position;
     Vector2 _scale = {1.0f, 1.0f};
 
-    int _velocity;
+    float _velocity;
 
     bool _isColliadable;
     int _id;
 
-    AnimationComponent _component;
+    AnimationComponent _animation_component;
 };
