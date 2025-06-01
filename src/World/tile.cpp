@@ -46,7 +46,7 @@ void Tile::initHitbox(int x, int y) {
     else if (_tile_class == TileClass::DoorRight) 
     {
         _hitbox = {
-            x * 256.0f, y * 256.0f + 90.0f,
+            x * 256.0f, y * 256.0f + 20.0f,
             256.0f, 10.0f
         };
     }

@@ -164,46 +164,29 @@ bool Grid::loadFromFile(const std::string & filename) {
         if (!(layer->getType() == tmx::Layer::Type::Tile)) continue;
 
         TileClass tileClass;
-
         
         const auto & tiles = layer->getLayerAs<tmx::TileLayer>().getTiles();
-        
-        std::cout << "Start " << layer->getName() << " Layer:";
 
         if (layer->getName() == "Floor")     {
-            std::cout << "Floor DETECTED\n";
             tileClass = TileClass::Floor;
         }
         if (layer->getName() == "Wall")      {
-            std::cout << "Wall DETECTED\n";
             tileClass = TileClass::Wall;
         }
         if (layer->getName() == "WallUp")    {
-            std::cout << "WallUp DETECTED\n";
             tileClass = TileClass::WallUp;
         }
         if (layer->getName() == "WallDown")  {
-            std::cout << "WallDown DETECTED\n";
             tileClass = TileClass::WallDown;
         }
         if (layer->getName() == "DoorRight") {
-            std::cout << "DoorRight DETECTED\n";
             tileClass = TileClass::DoorRight;
         }
         if (layer->getName() == "DoorLeft")  {
-            std::cout << "DoorLeft DETECTED\n";
             tileClass = TileClass::DoorLeft;
         }
 
-        std::cout << "_______________Tiles:\n";
-        for (int y = 0; y < _height; ++y) {
-            for (int x = 0; x < _width; ++x) {
-                std::cout << tiles[y * _width + x].ID - 1 << " ";
-            }
-            std::cout << std::endl;
-        }
 
-        std::cout << "_______________Grid:\n";
         for (int y = 0; y < _height; ++y) {
 
             for (int x = 0; x < _width; ++x) {
@@ -215,32 +198,12 @@ bool Grid::loadFromFile(const std::string & filename) {
             }
         }
 
-        for (int y = 0; y < _height; ++y) {
-            for (int x = 0; x < _width; ++x) {
-                std::cout << _grid[y * _width + x] << " ";
-            }
-            std::cout << std::endl;
-        }
-
-        // for (int i = 0; i < tiles.size(); ++i) {
-        //     _grid.push_back(tiles[i].ID);
-        //     _tiles[tiles[i].ID].setTileClass(tileClass);
-        // }
-
     }
 
     const auto& tileset = map.getTilesets()[0];
     std::string tilesetPath = tileset.getImagePath();
     
     _tileset = LoadTexture(tilesetPath.c_str());
-
-    // for (int y = 0; y < _height; ++y) {
-    //     for (int x = 0; x < _width; ++x) {
-    //         std::cout << _grid[y * _width + x] << " ";
-    //     }
-    //     std::cout << std::endl;
-    // }
-    //std::cout << "-------------------" << (int)_tiles[33].getTileClass() << '\n';
 
     return true;
 }
