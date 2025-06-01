@@ -14,7 +14,7 @@ set(SOURCES
     src/game.cpp
     src/game_menu.cpp
     src/collidable.cpp
-    
+
     src/Entity/entity.cpp
     src/Entity/npc.cpp
     src/Entity/player.cpp
@@ -27,8 +27,7 @@ set(SOURCES
     src/Animation/animation_component.cpp
 
     src/UI/ui_element.cpp
-
-    src/Interactive/
+    src/Interactive/interactivable.cpp
 )
 set(RESOURCES_DIR "resources")
 
@@ -56,6 +55,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE
     "${CMAKE_SOURCE_DIR}/include/Menu"
     "${CMAKE_SOURCE_DIR}/include/UI"
     "${CMAKE_SOURCE_DIR}/include/World"
+    "${CMAKE_SOURCE_DIR}/include/Interactive"
     "${CMAKE_SOURCE_DIR}/external/tmxlite/tmxlite/include"
 
 )

@@ -9,6 +9,7 @@
 #include "player.hpp"
 #include "tile.hpp"
 #include "grid.hpp"
+#include "interactivable.hpp"
 
 
 class World {
@@ -30,7 +31,10 @@ public:
     void reset();
     
     void addEntity(const Entity & entity);
+    void addInteractiveObject(const InteractiveObject & interactive_object);
+
     void removeEntity(const std::string & entity_name);
+    void removeInteractiveObject(const std::string & entity_name);
 
     const Player * getPlayer() const;
     Grid getGrid() const;
@@ -46,6 +50,7 @@ public:
     
 private:
     std::vector<std::unique_ptr<Entity>> _entities;
+    std::vector<InteractiveObject> _interactiv_objects;
     Player* _player;
 
     Grid _grid;

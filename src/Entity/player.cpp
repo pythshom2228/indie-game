@@ -3,7 +3,7 @@ static bool isWASDDownKeysdown();
 #include <iostream>
 
 Player::Player() 
-: Entity({}), _name("Renat"), _hp(3), _current_quest(nullptr) {
+: Entity(), _name("Renat") {
     _velocity = 2.5f;
 
     scale(0.15f, 0.15f);
@@ -131,10 +131,6 @@ void Player::render() const {
             texture.height * _scale.y          // Высота с масштабом
         };
         
-
-        
-        // Рисуем текстуру с центром в _position
-        
         DrawTexturePro(
             texture,
             source_rect,
@@ -144,6 +140,7 @@ void Player::render() const {
             WHITE                              // Цвет (можно добавить поле)
         );
     }
+
 
 }
 

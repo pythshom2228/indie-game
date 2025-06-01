@@ -27,7 +27,7 @@ public:
 
     Vector2 getPosition() const;
 
-    virtual void update() = 0;
+    void update();
     void render() const;
 
 
