@@ -34,11 +34,9 @@ void Game::start() {
 
 
 void Game::update() {
-
     if(_menu->isActive()) {
         _menu->update();
         _menu->render();
-
     }
     else {
         _world.update();
@@ -49,12 +47,29 @@ void Game::update() {
         _camera.target.x = Lerp(_camera.target.x, playerPos.x, 0.05f);
         _camera.target.y = Lerp(_camera.target.y, playerPos.y, 0.05f);
 
+        // Получаем размеры карты (предполагая, что у World есть методы getMapWidth() и getMapHeight())
+        float mapWidth = _world.getGrid().getWidth() * 256.0f;  // в пикселях
+        float mapHeight = _world.getGrid().getHeight() * 256.0f; // в пикселях
+        
+        // Рассчитываем половину видимой области камеры
+        float cameraHalfWidth = (window_width / 2.0f) / _camera.zoom;
+        float cameraHalfHeight = (window_height / 2.0f) / _camera.zoom;
+        
+        // Ограничиваем камеру в пределах карты
+        _camera.target.x = Clamp(_camera.target.x, cameraHalfWidth, mapWidth - cameraHalfWidth);
+        _camera.target.y = Clamp(_camera.target.y, cameraHalfHeight, mapHeight - cameraHalfHeight);
+
         if (IsKeyDown(KEY_UP)) {
-            _camera.zoom += 0.01f;
+                _camera.zoom += 0.01f;
         }
         if (IsKeyDown(KEY_DOWN)) {
-            _camera.zoom -= 0.01f;
+            if (_camera.zoom > 0.7f) {
+                _camera.zoom -= 0.01f;
+            }
         }
+        
+        // Также ограничиваем зум, чтобы не было слишком маленького или большого масштаба
+        _camera.zoom = Clamp(_camera.zoom, 0.1f, 3.0f);
     }
 }
 
