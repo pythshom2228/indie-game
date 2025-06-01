@@ -32,7 +32,7 @@ void Tile::initHitbox(int x, int y) {
     else if (_tile_class == TileClass::WallDown) 
     {
         _hitbox = {
-            x * 256.0f, y * 256.0f + 100.0f,
+            x * 256.0f, y * 256.0f + 50.0f,
             256.0f, 256.0f
         };
     }
