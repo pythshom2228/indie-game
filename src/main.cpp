@@ -5,7 +5,7 @@
 int main(void) {
 
     InitWindow(1280, 720, "Game");
-//    InitAudioDevice();
+    InitAudioDevice();
 
     
     Game game;

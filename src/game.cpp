@@ -60,12 +60,14 @@ void Game::update() {
 void Game::playerHandleInput() {
     float velocity = _player.getVelocity();
 
+    if (IsKeyDown(KEY_LEFT_SHIFT)) velocity *= 2.0f;
+
     if (IsKeyDown(KEY_A)) 
     {
         _player.move(-velocity, 0.0f);
 
         if (_world.getGrid().checkCollision(_player.getHitbox())) {
-            _player.setPosition(_player.getPosition().x + 3.0f, _player.getPosition().y);
+            _player.setPosition(_player.getPosition().x + velocity, _player.getPosition().y);
         }
     }
     if (IsKeyDown(KEY_D)) 
@@ -73,7 +75,7 @@ void Game::playerHandleInput() {
         _player.move(velocity, 0.0f);
 
         if (_world.getGrid().checkCollision(_player.getHitbox())) {
-            _player.setPosition(_player.getPosition().x - 3.0f, _player.getPosition().y);
+            _player.setPosition(_player.getPosition().x - velocity, _player.getPosition().y);
         }
     }
     if (IsKeyDown(KEY_W)) 
@@ -81,7 +83,7 @@ void Game::playerHandleInput() {
         _player.move(0, -velocity);
 
         if (_world.getGrid().checkCollision(_player.getHitbox())) {
-            _player.setPosition(_player.getPosition().x, _player.getPosition().y + 3.0f);
+            _player.setPosition(_player.getPosition().x, _player.getPosition().y + velocity);
         }
     }
     if (IsKeyDown(KEY_S)) 
@@ -89,7 +91,7 @@ void Game::playerHandleInput() {
         _player.move(0, velocity);
         
         if (_world.getGrid().checkCollision(_player.getHitbox())) {
-            _player.setPosition(_player.getPosition().x, _player.getPosition().y - 3.0f);
+            _player.setPosition(_player.getPosition().x, _player.getPosition().y - velocity);
         }
     }
 }
