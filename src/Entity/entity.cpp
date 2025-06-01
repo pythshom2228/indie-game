@@ -19,7 +19,6 @@ void Entity::move(float x, float y) {
     _position.x += x;
     _position.y += y;
 
-    // Обновляем все хитбоксы
     updateHitboxes(x, y);
     
     if (y > 0.0f) {
@@ -45,7 +44,6 @@ void Entity::move(float x, float y) {
 }
 
 void Entity::updateHitboxes(float x, float y) {
-    // Основной хитбокс
     _hitbox.x += x;
     _hitbox.y += y;
     
