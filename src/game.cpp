@@ -17,11 +17,12 @@ Game::Game()
 }
 
 void Game::start() {
-    
-    _world.initWorld("dog_world10.tmx");
+
+
+    _world.initWorld("lobby.tmx");
 
     _world.setPlayer(&_player);
-    _player.setPosition(3 * 256, 16 * 256);
+    _player.setPosition(3 * 256, 3 * 256);
 
     while(!WindowShouldClose() && _isRunning) {
         update();
