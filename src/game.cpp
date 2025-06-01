@@ -58,15 +58,6 @@ void Game::update() {
         // Ограничиваем камеру в пределах карты
         _camera.target.x = Clamp(_camera.target.x, cameraHalfWidth, mapWidth - cameraHalfWidth);
         _camera.target.y = Clamp(_camera.target.y, cameraHalfHeight, mapHeight - cameraHalfHeight);
-
-        if (IsKeyDown(KEY_UP)) {
-                _camera.zoom += 0.01f;
-        }
-        if (IsKeyDown(KEY_DOWN)) {
-            if (_camera.zoom > 0.7f) {
-                _camera.zoom -= 0.01f;
-            }
-        }
         
         // Также ограничиваем зум, чтобы не было слишком маленького или большого масштаба
         _camera.zoom = Clamp(_camera.zoom, 0.1f, 3.0f);
