@@ -6,6 +6,7 @@
 
 
 Interactivable::Interactivable(float interactive_radius, const std::function<void()> & interact)
+
 : _interactive_radius(interactive_radius), _interact(interact)  {}
 
 void Interactivable::onInteract() const {
@@ -13,7 +14,9 @@ void Interactivable::onInteract() const {
 }
 
 float Interactivable::getInteractiveRadius()                 const { return _interactive_radius; }
+
 const std::function<void()> & Interactivable::getInteract() const { return _interact; }
+
 
 void Interactivable::setIntaractiveRadius(float interactiveRadius) { 
     _interactive_radius = interactiveRadius; 
@@ -29,6 +32,7 @@ InteractiveObject::InteractiveObject(const std::array<Texture2D, DIRECTIONS_COUN
 bool InteractiveObject::isPointInRange(const Vector2 & point) {
 
     std::cout << "WHAAAAAAAAAAAAAAAAT\n";
+
 
     Vector2 direction = {
         point.x - _position.x,

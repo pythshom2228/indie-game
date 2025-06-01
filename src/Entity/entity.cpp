@@ -3,10 +3,6 @@
 
 Entity::Entity(const std::array<Texture2D,DIRECTIONS_COUNT> & textures, const Vector2 & position)
 : _textures(textures), _position(position), _rotation_state(RotationStates::Down) {
-    _animation_component.addAnimation("WalkingRight");
-    _animation_component.addAnimation("WalkingUp");
-    _animation_component.addAnimation("WalkingDown");
-    _animation_component.addAnimation("WalkingLeft");
 
 }
 

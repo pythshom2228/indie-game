@@ -27,10 +27,7 @@ set(SOURCES
     src/Animation/animation_component.cpp
 
     src/UI/ui_element.cpp
-
     src/Interactive/interactivable.cpp
-
-    src/Interactive/
 )
 set(RESOURCES_DIR "resources")
 
