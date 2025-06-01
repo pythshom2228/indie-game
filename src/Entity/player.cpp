@@ -4,7 +4,7 @@ static bool isWASDDownKeysdown();
 
 Player::Player() 
 : Entity({}), _name("Renat"), _hp(3), _current_quest(nullptr) {
-    _velocity = 2.5;
+    _velocity = 2.5f;
 
     scale(0.15f, 0.15f);
 
