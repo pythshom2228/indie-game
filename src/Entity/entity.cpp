@@ -2,10 +2,17 @@
 #include <iostream>
 
 Entity::Entity(const std::array<Texture2D,DIRECTIONS_COUNT> & textures, const Vector2 & position)
-: _textures(textures), _position(position), _rotation_state(RotationStates::Up) {}
+: _textures(textures), _position(position), _rotation_state(RotationStates::Down) {
+    _animation_component.addAnimation("WalkingRight");
+    _animation_component.addAnimation("WalkingUp");
+    _animation_component.addAnimation("WalkingDown");
+    _animation_component.addAnimation("WalkingLeft");
+
+}
 
 void Entity::move(const Vector2& dest) {
     move(dest.x, dest.y); 
+
 }
 
 void Entity::move(float x, float y) {
@@ -17,15 +24,22 @@ void Entity::move(float x, float y) {
     
     if (y > 0.0f) {
         _rotation_state = RotationStates::Down;
+        _animation_component.play("WalkingDown");
+
     } 
     else if (y < 0.0f) {
         _rotation_state = RotationStates::Up;
+        _animation_component.play("WalkingUp");
+
     }
     else if (x < 0.0f) {
         _rotation_state = RotationStates::Left;
+        _animation_component.play("WalkingLeft");
+
     }
     else if (x > 0.0f) {
         _rotation_state = RotationStates::Right;
+        _animation_component.play("WalkingRight");
     }
     
 }
@@ -42,6 +56,15 @@ void Entity::updateHitboxes(float x, float y) {
     // Нижний хитбокс (30% высоты, расположен снизу)
     _down_hitbox.x += x;
     _down_hitbox.y += y; // Смещение вниз
+}
+
+void Entity::updateAnimation() {
+    _animation_component.update(GetFrameTime());
+
+}
+
+void Entity::addAnimation(const std::string& name) {
+    _animation_component.addAnimation(name);
 }
 
 void Entity::scale(float width, float height) {
@@ -65,9 +88,7 @@ Vector2 Entity::getPosition() const {
     return _position;
 }
 
-void update() {
-    // Потом
-}
+
 
 void Entity::render() const {
     
@@ -100,52 +121,7 @@ void Entity::render() const {
         0.0f,                              // Угол поворота (если нужно)
         WHITE                              // Цвет (можно добавить поле)
     );
-
-    DrawRectangleLinesEx(
-        {_hitbox.x, _hitbox.y, 
-        _hitbox.width, _hitbox.height}, 
-        3.0f, RED
-    );
-
-    DrawRectangleLinesEx(
-        {_up_hitbox.x, _up_hitbox.y, 
-            _up_hitbox.width, _up_hitbox.height}, 
-            3.0f, GREEN
-    );
-
-    DrawRectangleLinesEx(
-        {_down_hitbox.x, _down_hitbox.y, 
-            _down_hitbox.width, _down_hitbox.height}, 
-            3.0f, BLUE
-    );
     
-    // Отладочная точка в центре (можно убрать)
-    DrawCircle(_position.x, _position.y, 2.0f, BLUE);
-
-
-    int x1 = _hitbox.x;
-    int y1 = _hitbox.y;
-
-    int x2 = (_hitbox.x + _hitbox.width);
-    int y2 = _hitbox.y;
-
-    int x3 = (_hitbox.x + _hitbox.width);
-    int y3 = (_hitbox.y + _hitbox.height);
-
-    int x4 = _hitbox.x;
-    int y4 = (_hitbox.y + _hitbox.height);
-
-    DrawCircle(x1, y1, 15.0f, GREEN);
-    DrawCircle(x2, y2, 15.0f, RED);
-    DrawCircle(x3, y3, 15.0f, BLUE);
-    DrawCircle(x4, y4, 15.0f, YELLOW);
-
-    int x = _position.x / 256.0f;
-    int y = _position.y / 256.0f;
-
-    std::string coord = std::to_string(x) + " " + std::to_string(y);
-
-    DrawText(coord.c_str(), _position.x - 30, _position.y - 170, 50, RED);
 
 }
 

@@ -18,7 +18,7 @@ Game::Game()
 
 void Game::start() {
 
-    _world.initWorld("dog_world.tmx");
+    _world.initWorld("dogWorldSecond.tmx");
     _world.setPlayer(&_player);
     _player.setPosition(0.0f, 0.0f);
 
@@ -58,10 +58,11 @@ void Game::update() {
 }
 
 void Game::playerHandleInput() {
+    float velocity = _player.getVelocity();
 
     if (IsKeyDown(KEY_A)) 
     {
-        _player.move(-3.0f, 0.0f);
+        _player.move(-velocity, 0.0f);
 
         if (_world.getGrid().checkCollision(_player.getHitbox())) {
             std::cout << "COLLISION_DETECTED" << std::endl;
@@ -70,7 +71,7 @@ void Game::playerHandleInput() {
     }
     if (IsKeyDown(KEY_D)) 
     {
-        _player.move(3.0f, 0.0f);
+        _player.move(velocity, 0.0f);
 
         if (_world.getGrid().checkCollision(_player.getHitbox())) {
             std::cout << "COLLISION_DETECTED" << std::endl;
@@ -79,7 +80,7 @@ void Game::playerHandleInput() {
     }
     if (IsKeyDown(KEY_W)) 
     {
-        _player.move(0.0f, -3.0f);
+        _player.move(0, -velocity);
 
         if (_world.getGrid().checkCollision(_player.getHitbox())) {
             std::cout << "COLLISION_DETECTED" << std::endl;
@@ -88,7 +89,7 @@ void Game::playerHandleInput() {
     }
     if (IsKeyDown(KEY_S)) 
     {
-        _player.move(0.0f, 3.0f);
+        _player.move(0, velocity);
         
         if (_world.getGrid().checkCollision(_player.getHitbox())) {
             std::cout << "COLLISION_DETECTED" << std::endl;
