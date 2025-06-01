@@ -5,6 +5,11 @@
 
 #include "tile.hpp"
 
+enum class Layer {
+    Up = 0,
+    Down = 1
+};
+
 class Grid {
     class Proxy;
 public:
@@ -12,11 +17,11 @@ public:
 
     Grid(const std::string & filename);
 
-    bool checkCollision(const std::vector<Rectangle> hitboxes, bool isUp);
+    bool checkCollision(const Rectangle & hitboxes);
 
     bool loadFromFile(const std::string & filename);
 
-    void render(int layer) const;
+    void render(Layer layer) const;
 
     Proxy operator[](int row);
     const Proxy operator[](int row) const;

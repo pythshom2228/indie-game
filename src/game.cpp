@@ -17,10 +17,10 @@ Game::Game()
 }
 
 void Game::start() {
-
-    _world.initWorld("dog_world6.tmx");
+    
+    _world.initWorld("dog_world10.tmx");
     _world.setPlayer(&_player);
-    _player.setPosition(3 * 256, 17 * 256);
+    _player.setPosition(3 * 256, 16 * 256);
 
     while(!WindowShouldClose() && _isRunning) {
         update();
@@ -62,7 +62,7 @@ void Game::playerHandleInput() {
     {
         _player.move(-3.0f, 0.0f);
 
-        if (_world.getGrid().checkCollision({_player.getUpHitbox(), _player.getDownHitbox()}, false)) {
+        if (_world.getGrid().checkCollision(_player.getHitbox())) {
             _player.setPosition(_player.getPosition().x + 3.0f, _player.getPosition().y);
         }
     }
@@ -70,7 +70,7 @@ void Game::playerHandleInput() {
     {
         _player.move(3.0f, 0.0f);
 
-        if (_world.getGrid().checkCollision({_player.getUpHitbox(), _player.getDownHitbox()}, false)) {
+        if (_world.getGrid().checkCollision(_player.getHitbox())) {
             _player.setPosition(_player.getPosition().x - 3.0f, _player.getPosition().y);
         }
     }
@@ -78,7 +78,7 @@ void Game::playerHandleInput() {
     {
         _player.move(0.0f, -3.0f);
 
-        if (_world.getGrid().checkCollision({_player.getDownHitbox()}, true)) {
+        if (_world.getGrid().checkCollision(_player.getHitbox())) {
             _player.setPosition(_player.getPosition().x, _player.getPosition().y + 3.0f);
         }
     }
@@ -86,7 +86,7 @@ void Game::playerHandleInput() {
     {
         _player.move(0.0f, 3.0f);
         
-        if (_world.getGrid().checkCollision({_player.getUpHitbox()}, false)) {
+        if (_world.getGrid().checkCollision(_player.getHitbox())) {
             _player.setPosition(_player.getPosition().x, _player.getPosition().y - 3.0f);
         }
     }

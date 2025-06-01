@@ -1,10 +1,12 @@
 #include <game.hpp>
 #include "raylib.h"
+#include <iostream>
 
 int main(void) {
 
     InitWindow(1280, 720, "Game");
-    InitAudioDevice();
+//    InitAudioDevice();
+
     
     Game game;
     
