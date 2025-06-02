@@ -33,18 +33,17 @@ void World::render() const
 {
 
     _grid.render(Layer::Down);
-    _player->render();
+
     for (auto & npc : _npcs) {
         npc.render();
-        DrawCircleV(npc.getPosition(), 10.0f, RED);
-        DrawCircleLinesV(npc.getPosition(), npc.getInteractiveRadius(), RED);
     }
+
+    _player->render();
+
     _grid.render(Layer::Up);
     
     for (auto & interactive_object : _interactiv_objects) {
         interactive_object.render();
-        DrawCircleV(interactive_object.getPosition(), 10.0f, RED);
-        DrawCircleLinesV(interactive_object.getPosition(), interactive_object.getInteractiveRadius(), RED);
     }
 
     
@@ -52,7 +51,7 @@ void World::render() const
 }
 
 void World::update() {
-    
+
     _player->update();
 
     for (auto & interactive_object : _interactiv_objects) {
@@ -63,10 +62,11 @@ void World::update() {
 
     for (auto & npc : _npcs) {
         if (npc.isPointInRange(_player->getPosition())) {
-            std::cout << "DETECTED" << std::endl;
             npc.onInteract();
+        } else {
+            npc.setHasPlayedSound(false);
+            npc.update();
         }
-        npc.update();
     }
 
 }
@@ -131,10 +131,68 @@ void Lobby::start() {
     
 
     NPC bob({LoadTexture(RES_PATH"Interactive/bob.png")}, {5.0f * 256.0f, 2.9f * 256.0f});
-    bob.setIntaractiveRadius(130.0f);
+    bob.setIntaractiveRadius(230.0f);
     bob.scale(0.15f, 0.15f);
-    bob.setInteract([](){
-        DrawCircleV({5.0f * 256.0f, 2.9f * 256.0f}, 200.0f, GREEN);
+    // В коде инициализации NPC
+    bob.setInteract([this]() {  // Захватываем bob по ссылке, чтобы менять его поле
+        Vector2 bobPos = {5.0f * 256.0f, 2.9f * 256.0f};
+        float textSize = 50;
+        float padding = 20.0f;
+        const char* text = "TELEPORTATOR THREE THOUSAND!!";
+
+        Vector2 textSizeMeasured = MeasureTextEx(GetFontDefault(), text, textSize, 10.0f);
+
+        Rectangle textBox = {
+            bobPos.x - textSizeMeasured.x/2 - padding,
+            bobPos.y - 250.0f,
+            textSizeMeasured.x + 2*padding,
+            textSizeMeasured.y + 2*padding
+        };
+
+        DrawRectangleRounded(textBox, 0.3f, 8, LIGHTGRAY);
+        DrawRectangleRoundedLines(textBox, 0.3f, 8, DARKGRAY);
+
+        DrawText(text, 
+                 textBox.x + padding, 
+                 textBox.y + padding, 
+                 textSize, DARKBLUE);
+        
+        Vector2 tail[3] = {
+            {bobPos.x, textBox.y + textBox.height},
+            {bobPos.x - 15.0f, textBox.y + textBox.height + 15.0f},
+            {bobPos.x + 15.0f, textBox.y + textBox.height + 15.0f}
+        };
+        DrawTriangle(tail[0], tail[1], tail[2], LIGHTGRAY);
+        DrawTriangleLines(tail[0], tail[1], tail[2], DARKGRAY);
+
+        // Если звук ещё не играл — проигрываем и ставим флаг
+        if (!this->_npcs[0].hasPlayedSound()) {
+            int rand = GetRandomValue(0, 5);
+
+            switch (rand)
+            {
+            case 0:
+                PlaySound(LoadSound(RES_PATH"UI/crazydavelong0.mp3"));
+                break;
+            case 1:
+                PlaySound(LoadSound(RES_PATH"UI/crazydavelong1.mp3"));
+                break;
+            case 2:
+                PlaySound(LoadSound(RES_PATH"UI/crazydavelong2.mp3"));
+                break;
+            case 3:
+                PlaySound(LoadSound(RES_PATH"UI/crazydavelong3.mp3"));
+                break;
+            case 4:
+                PlaySound(LoadSound(RES_PATH"UI/crazydavelong4.mp3"));
+                break;
+            case 5:
+                PlaySound(LoadSound(RES_PATH"UI/crazydavelong5.mp3"));
+                break;
+            }
+
+            this->_npcs[0].setHasPlayedSound(true);
+        }
     });
 
     _npcs.push_back(bob);
@@ -143,15 +201,16 @@ void Lobby::start() {
 }
 
 void Dogrld::start() {
-
+    PlaySound(LoadSound(RES_PATH"UI/dog_world_sound.mp3"));
     initWorld("dog_world.tmx");
-    _player->setPosition(4.5f * 256.0f, 33.5f * 256);
+    _player->setPosition(2.5f * 256.0f, 17.5f * 256);
 
     InteractiveObject lever({});
     lever.setIntaractiveRadius(160.0f);
 //***********************************************//
     lever.setInteract([this](){
         if (IsKeyPressed(KEY_E)) {
+            PlaySound(LoadSound(RES_PATH"UI/door.mp3"));
             this->_grid[14][3] = 17;
             this->_grid[14][2] = 15;
         }
@@ -161,6 +220,7 @@ void Dogrld::start() {
 //***********************************************//
     lever.setInteract([this](){
         if (IsKeyPressed(KEY_E)) {
+            PlaySound(LoadSound(RES_PATH"UI/door.mp3"));
             this->_grid[9][5] = 17;
             this->_grid[10][1] = 15;
         }
@@ -170,6 +230,7 @@ void Dogrld::start() {
 //***********************************************//
     lever.setInteract([this](){
         if (IsKeyPressed(KEY_E)) {
+            PlaySound(LoadSound(RES_PATH"UI/door.mp3"));
             this->_grid[9][10] = 17;
             this->_grid[2][2] = 15;
         }
@@ -179,6 +240,7 @@ void Dogrld::start() {
 //***********************************************//
     lever.setInteract([this](){
         if (IsKeyPressed(KEY_E)) {
+            PlaySound(LoadSound(RES_PATH"UI/door.mp3"));
             this->_grid[9][23] = 17; // Floor
             this->_grid[2][20] = 15; // Lever
         }
@@ -188,6 +250,7 @@ void Dogrld::start() {
 //***********************************************//
     lever.setInteract([this](){
         if (IsKeyPressed(KEY_E)) {
+            PlaySound(LoadSound(RES_PATH"UI/door.mp3"));
             this->_grid[4][24] = 17;
             this->_grid[16][21] = 15;
         }
@@ -198,6 +261,7 @@ void Dogrld::start() {
 //***********************************************//
 lever.setInteract([this](){
     if (IsKeyPressed(KEY_E)) {
+        PlaySound(LoadSound(RES_PATH"UI/door.mp3"));
         this->_grid[21][3] = 17; // Floor
         this->_grid[17][16] = 15; // Lever
     }
@@ -207,6 +271,7 @@ _interactiv_objects.push_back(lever);
 //***********************************************//
 lever.setInteract([this](){
     if (IsKeyPressed(KEY_E)) {
+        PlaySound(LoadSound(RES_PATH"UI/door.mp3"));
         this->_grid[38][8] = 17; // Floor
         this->_grid[32][3] = 15; // Lever
     }
@@ -216,6 +281,7 @@ _interactiv_objects.push_back(lever);
 //***********************************************//
 lever.setInteract([this](){
     if (IsKeyPressed(KEY_E)) {
+        PlaySound(LoadSound(RES_PATH"UI/door.mp3"));
         this->_grid[38][10] = 17; // Floor
         this->_grid[29][16] = 15; // Lever
     }
@@ -225,6 +291,7 @@ _interactiv_objects.push_back(lever);
 //***********************************************//
 lever.setInteract([this](){
     if (IsKeyPressed(KEY_E)) {
+        PlaySound(LoadSound(RES_PATH"UI/door.mp3"));
         this->_grid[38][12] = 17; // Floor
         this->_grid[35][28] = 15; // Lever
     }

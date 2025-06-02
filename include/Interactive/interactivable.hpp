@@ -13,15 +13,20 @@ public:
 
     void onInteract() const;
 
+    bool hasPlayedSound() const;
+    bool isOnInteract() const;
     float getInteractiveRadius() const;
     const std::function<void()> & getInteract() const;
 
+    void setHasPlayedSound(bool hasPlayedSound);
     void setIntaractiveRadius(float interactiveRadius);
     void setInteract(const std::function<void()> & iteract);
 
 protected:
     float _interactive_radius;
     std::function<void()> _interact = [](){};
+    bool _isOnInteract;
+    bool _hasPlayedSound;
 };
 
 class InteractiveObject : public Entity, public Interactivable {

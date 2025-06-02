@@ -11,6 +11,15 @@ NPC::NPC(const std::array<Texture2D,DIRECTIONS_COUNT>& textures, const Vector2 &
     _position = position;
 }
 
+void NPC::render() const {
+    Entity::render();
+
+    if (_isOnInteract) {
+        _interact();
+    }
+
+}
+
 void NPC::setName(const std::string& name) {
     _name = name;
 }

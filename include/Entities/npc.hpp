@@ -15,6 +15,8 @@ public:
 
     ~NPC() = default;
 
+    void render() const;
+
     void setName(const std::string& name);
 
     void addPhrase(const std::string& phrase);
