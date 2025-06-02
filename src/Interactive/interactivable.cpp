@@ -1,6 +1,7 @@
 #include <Interactive/interactivable.hpp>
 #include <raymath.h>
 #include <iostream>
+#include "interactivable.hpp"
 
 
 Interactivable::Interactivable(float interactive_radius, const std::function<void()> & interact)
@@ -14,11 +15,17 @@ void Interactivable::onInteract() const {
 
 float Interactivable::getInteractiveRadius()                 const { return _interactive_radius; }
 
+bool Interactivable::hasPlayedSound() const { return _hasPlayedSound; }
+bool Interactivable::isOnInteract() const { return _isOnInteract; }
 const std::function<void()> & Interactivable::getInteract() const { return _interact; }
 
+void Interactivable::setHasPlayedSound(bool hasPlayedSound) {
+    _hasPlayedSound = hasPlayedSound;
+}
 
-void Interactivable::setIntaractiveRadius(float interactiveRadius) { 
-    _interactive_radius = interactiveRadius; 
+void Interactivable::setIntaractiveRadius(float interactiveRadius)
+{
+    _interactive_radius = interactiveRadius;
 }
 
 void Interactivable::setInteract(const std::function<void()> & interact) {
@@ -42,5 +49,6 @@ bool InteractiveObject::isPointInRange(const Vector2 & point) {
     float distance_squared = direction.x * direction.x + direction.y * direction.y;
     float radius_squared = _interactive_radius * _interactive_radius;
 
-    return distance_squared <= radius_squared;
+    _isOnInteract = distance_squared <= radius_squared;
+    return _isOnInteract;
 }
