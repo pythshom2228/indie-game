@@ -12,7 +12,8 @@ bool GameMenu::isActive() {
 StartMenu::StartMenu(bool& isGameRunning) 
 :   _isGameRunning(isGameRunning), 
     _start_button(Vector2 {0,0}, LoadTexture(RES_PATH"UI/StartButton.png")),
-    _exit_button(Vector2 {0,0}, LoadTexture(RES_PATH"UI/ExitButton.png")) {
+    _exit_button(Vector2 {0,0}, LoadTexture(RES_PATH"UI/ExitButton.png"))
+    /*tex_story_anim(LoadTextureFromImage("UI/story.gif"))*/ {
 
     Sound button_hover_sound = LoadSound(RES_PATH"UI/ButtonPressed.mp3");
     
@@ -65,11 +66,11 @@ StartMenu::StartMenu(bool& isGameRunning)
     _arrow.y_pos = _start_button.getPosition().y;
     
 
-    //StartMenuBackgroundMusic.mp3
-    //_background_music = LoadMusicStream(RES_PATH"UI/StartMenuBackgroundMusic.mp3");
-    //_background_music.looping = true;
+    // //StartMenuBackgroundMusic.mp3
+    // _background_music = LoadMusicStream(RES_PATH"UI/StartMenuBackgroundMusic.mp3");
+    // _background_music.looping = true;
     
-    //    PlayMusicStream(_background_music);
+    // PlayMusicStream(_background_music);
 }
 
 void StartMenu::update() {
@@ -99,7 +100,9 @@ void StartMenu::render() const {
 }
 
 StartMenu::~StartMenu() {
-    //StopMusicStream(_background_music);
+    
+
+    // StopMusicStream(_background_music);
 }
 
 

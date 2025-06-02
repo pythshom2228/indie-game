@@ -34,7 +34,9 @@ public:
 private:
 
     bool& _isGameRunning;
+
     Music _background_music;
+    Texture2D tex_story_anim;
     
 
     Button _start_button;
