@@ -98,6 +98,7 @@ void World::removeInteractiveObject(const std::string &entity_name) {
 const Player * World::getPlayer()   const { return _player;   }
 Grid World::getGrid()               const { return _grid; }
 const std::string &World::getName() const { return _world_name; }
+const Sound &World::getBackgroundSound() const { return _background_sound; }
 
 void World::setPlayer(Player* player) {
     _player = player;
@@ -107,6 +108,10 @@ void World::setFinished(bool finished) {
     _is_finished = finished;
 }
 
+void World::setBackgroundSound(const Sound &sound) {
+    _background_sound = sound;
+}
+
 bool World::isColidable(int x, int y) const {
 
 }
@@ -114,8 +119,15 @@ bool World::isFinished() const {
     return _is_finished;
 }
 
+World::~World() {
+    StopSound(_background_sound);
+}
+
 void Lobby::start() {
+    _background_sound = LoadSound(RES_PATH"UI/lobby_sound.mp3");
+    PlaySound(_background_sound);
     
+
     initWorld("lobby.tmx");
     _player->setPosition(2.4f * 256.0f, 5.1f * 256.0f);
 
@@ -201,7 +213,9 @@ void Lobby::start() {
 }
 
 void Dogrld::start() {
-    PlaySound(LoadSound(RES_PATH"UI/dog_world_sound.mp3"));
+    _background_sound = LoadSound(RES_PATH"UI/dog_world_sound.mp3");
+    PlaySound(_background_sound);
+
     initWorld("dog_world.tmx");
     _player->setPosition(2.5f * 256.0f, 17.5f * 256);
 

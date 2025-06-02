@@ -9,7 +9,7 @@ Game::Game()
     , _menu(std::make_unique<StartMenu>(_isRunning)) {
     SetTargetFPS(120);
 
-    _world = std::make_unique<Lobby>();
+    _world = std::make_unique<World>();
 
     _camera = {0};
     _camera.offset = {static_cast<float>(window_width) / 2, static_cast<float>(window_height) / 2}; 
@@ -19,6 +19,8 @@ Game::Game()
 }
 
 void Game::start() {
+
+    //PlaySound(LoadSound(RES_PATH"UI/main_menu_sound.mp3"));
 
     _world->setPlayer(&_player);
     _world->start();
@@ -45,7 +47,7 @@ void Game::update() {
         }
         _world->update();
         
-        playerHandleInput();
+        playerHandleInput();    
         updateCamera();
 
     }

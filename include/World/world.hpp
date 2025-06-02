@@ -40,15 +40,17 @@ public:
     Grid getGrid() const;
     Texture2D getTileset() const;
     const std::string& getName() const;
+    const Sound & getBackgroundSound() const;
     
     void setTileset(const Texture2D & tileset);
     void setPlayer(Player* player);
     void setFinished(bool _finished);
-    
+    void setBackgroundSound(const Sound & sound);
+
     bool isColidable(int x, int y) const;
     bool isFinished() const;
     
-    ~World() = default;
+    ~World();
 
 protected:
     std::vector<std::unique_ptr<Entity>> _entities;
@@ -60,6 +62,7 @@ protected:
 
     bool _is_finished;
     std::string _world_name;
+    Sound _background_sound;
 };
 
 class Lobby : public World {
