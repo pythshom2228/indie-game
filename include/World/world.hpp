@@ -65,8 +65,10 @@ public:
     
     void start();
 
-private:
+    bool getgotoDogrld() const;
 
+private:
+    bool _gotoDogrld = false;
 };
 
 class Dogrld : public World {

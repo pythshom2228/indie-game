@@ -9,7 +9,7 @@ Game::Game()
     , _menu(std::make_unique<StartMenu>(_isRunning)) {
     SetTargetFPS(120);
 
-    _world = std::make_unique<Dogrld>();
+    _world = std::make_unique<Lobby>();
 
     _camera = {0};
     _camera.offset = {static_cast<float>(window_width) / 2, static_cast<float>(window_height) / 2}; 
@@ -38,6 +38,12 @@ void Game::update() {
         _menu->render();
     }
     else {
+
+        if (_world->isFinished()) {
+            _world = std::make_unique<Dogrld>();
+            _world->setPlayer(&_player);
+            _world->start();
+        }
         _world->update();
 
         playerHandleInput();
