@@ -3,6 +3,7 @@
 #include <iostream>
 #define RGBA_BYTES_COUNT 4
 
+
 GameMenu::GameMenu() : _is_active(true) {}
 
 bool GameMenu::isActive() {

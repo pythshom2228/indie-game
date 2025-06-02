@@ -74,4 +74,6 @@ public:
     
     void start();
 
+private:
+    Texture2D _texture_ending;
 };

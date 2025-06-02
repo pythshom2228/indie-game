@@ -115,7 +115,6 @@ bool World::isFinished() const {
 }
 
 void Lobby::start() {
-    
     initWorld("lobby.tmx");
     _player->setPosition(2.4f * 256.0f, 5.1f * 256.0f);
 
@@ -125,6 +124,7 @@ void Lobby::start() {
 
     io.setInteract([this](){
         this->_is_finished = true;
+        // StopSound(::lobby_sound);
     });
 
     _interactiv_objects.push_back(io);
@@ -138,7 +138,7 @@ void Lobby::start() {
         Vector2 bobPos = {5.0f * 256.0f, 2.9f * 256.0f};
         float textSize = 50;
         float padding = 20.0f;
-        const char* text = "TELEPORTATOR THREE THOUSAND!!";
+        const char* text = "TRY TO ESCAPE HAHAHAHA !!";
 
         Vector2 textSizeMeasured = MeasureTextEx(GetFontDefault(), text, textSize, 10.0f);
 
@@ -204,7 +204,9 @@ void Dogrld::start() {
     PlaySound(LoadSound(RES_PATH"UI/dog_world_sound.mp3"));
     initWorld("dog_world.tmx");
     _player->setPosition(2.5f * 256.0f, 17.5f * 256);
-
+    
+    //позиция к красному порталу
+    //_player->setPosition(10*500, 20 * 470);
     InteractiveObject lever({});
     lever.setIntaractiveRadius(160.0f);
 //***********************************************//
@@ -331,7 +333,32 @@ _interactiv_objects.push_back(lever);
     InteractiveObject red_portal({LoadTexture(RES_PATH"Interactive/portal_red.png")});
 
     red_portal.setInteract([this](){
+        _texture_ending = LoadTexture(RES_PATH"UI/Ending.png");
+        PlaySound(LoadSound(RES_PATH"UI/cheering.mp3"));
+        NPatchInfo npatch = {
+            .source = Rectangle{0,0,_texture_ending.width,_texture_ending.height},
+            .left  = 0,             // Left border offset
+            .top   = 0,           // Top border offset
+            .right = 0,           // Right border offset
+            .bottom = 0,          // Bottom border offset
+            .layout = NPATCH_NINE_PATCH
+        };
+        while(!WindowShouldClose()) {
 
+            BeginDrawing();
+
+            ClearBackground(BLACK);
+            DrawTextureNPatch(
+                _texture_ending,
+                npatch,
+                Rectangle{0,0,GetScreenWidth(),GetScreenHeight()},
+                Vector2{0.0f,0.0f},
+                0,
+                WHITE
+            );
+
+            EndDrawing();
+        }
     });
     red_portal.setPosition({18.0f * 256.0f, 37.5f * 256.0f});
     red_portal.scale(0.3f, 0.3f);
