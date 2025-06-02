@@ -9,6 +9,8 @@ Game::Game()
     , _menu(std::make_unique<StartMenu>(_isRunning)) {
     SetTargetFPS(120);
 
+    _world = std::make_unique<Dogrld>();
+
     _camera = {0};
     _camera.offset = {static_cast<float>(window_width) / 2, static_cast<float>(window_height) / 2}; 
     _camera.target = {0, 0};
@@ -18,22 +20,8 @@ Game::Game()
 
 void Game::start() {
 
-
-    _world.initWorld("dog_world10.tmx");
-
-    // InteractiveObject io;
-
-    // io.setInteract([]() -> void {
-    //     std::cout << "TOUCH DETECTED" << std::endl;
-    //     CloseWindow();
-    // });
-
-    // io.setPosition({3 * 256, 5 * 256});
-
-    // _world.addInteractiveObject(io);
-
-    _world.setPlayer(&_player);
-    _player.setPosition(3 * 256, 3 * 256);
+    _world->setPlayer(&_player);
+    _world->start();
 
     while(!WindowShouldClose() && _isRunning) {
         update();
@@ -50,7 +38,7 @@ void Game::update() {
         _menu->render();
     }
     else {
-        _world.update();
+        _world->update();
 
         playerHandleInput();
         updateCamera();
@@ -67,7 +55,7 @@ void Game::playerHandleInput() {
     {
         _player.move(-velocity, 0.0f);
 
-        if (_world.getGrid().checkCollision(_player.getHitbox())) {
+        if (_world->getGrid().checkCollision(_player.getHitbox())) {
             _player.setPosition(_player.getPosition().x + velocity, _player.getPosition().y);
         }
     }
@@ -75,7 +63,7 @@ void Game::playerHandleInput() {
     {
         _player.move(velocity, 0.0f);
 
-        if (_world.getGrid().checkCollision(_player.getHitbox())) {
+        if (_world->getGrid().checkCollision(_player.getHitbox())) {
             _player.setPosition(_player.getPosition().x - velocity, _player.getPosition().y);
         }
     }
@@ -83,7 +71,7 @@ void Game::playerHandleInput() {
     {
         _player.move(0, -velocity);
 
-        if (_world.getGrid().checkCollision(_player.getHitbox())) {
+        if (_world->getGrid().checkCollision(_player.getHitbox())) {
             _player.setPosition(_player.getPosition().x, _player.getPosition().y + velocity);
         }
     }
@@ -91,7 +79,7 @@ void Game::playerHandleInput() {
     {
         _player.move(0, velocity);
         
-        if (_world.getGrid().checkCollision(_player.getHitbox())) {
+        if (_world->getGrid().checkCollision(_player.getHitbox())) {
             _player.setPosition(_player.getPosition().x, _player.getPosition().y - velocity);
         }
     }
@@ -107,7 +95,7 @@ void Game::render() {
     else {
         BeginMode2D(_camera);
 
-            _world.render(); 
+            _world->render(); 
         
         EndMode2D();
 
@@ -122,8 +110,8 @@ void Game::updateCamera() {
     _camera.target.y = Lerp(_camera.target.y, playerPos.y, 0.05f);
 
     // Получаем размеры карты (предполагая, что у World есть методы getMapWidth() и getMapHeight())
-    float mapWidth = _world.getGrid().getWidth() * 256.0f;  // в пикселях
-    float mapHeight = _world.getGrid().getHeight() * 256.0f; // в пикселях
+    float mapWidth = _world->getGrid().getWidth() * 256.0f;  // в пикселях
+    float mapHeight = _world->getGrid().getHeight() * 256.0f; // в пикселях
     
     // Рассчитываем половину видимой области камеры
     float cameraHalfWidth = (window_width / 2.0f) / _camera.zoom;
@@ -137,7 +125,7 @@ void Game::updateCamera() {
             _camera.zoom += 0.01f;
     }
     if (IsKeyDown(KEY_DOWN)) {
-        if (_camera.zoom > 0.7f) {
+        if (_camera.zoom > 0.3f) {
             _camera.zoom -= 0.01f;
         }
     }

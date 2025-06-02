@@ -2,7 +2,6 @@
 
 #include <tmxlite/TileLayer.hpp>
 #include <tmxlite/Tileset.hpp>
-#include <iostream>
 
 World::World()
 : _player(nullptr) {}
@@ -35,6 +34,12 @@ void World::render() const
     _grid.render(Layer::Down);
     _player->render();
     _grid.render(Layer::Up);
+
+    for (auto & interactive_object : _interactiv_objects) {
+        interactive_object.render();
+        DrawCircleV(interactive_object.getPosition(), 10.0f, RED);
+        DrawCircleLinesV(interactive_object.getPosition(), interactive_object.getInteractiveRadius(), RED);
+    }
     
     DrawText(TextFormat("X: %f, Y: %f", (_player->getPosition().x / 256.0f), (_player->getPosition().y / 256.0f)), _player->getPosition().x, _player->getPosition().y, 20, WHITE);
 }
@@ -44,7 +49,6 @@ void World::update() {
     _player->update();
 
     for (auto & interactive_object : _interactiv_objects) {
-        std::cout << "_--------------------------\n";
         if (interactive_object.isPointInRange(_player->getPosition())) {
             interactive_object.onInteract();
         }
@@ -89,4 +93,32 @@ bool World::isColidable(int x, int y) const {
 }
 bool World::isFinished() const {
     return _is_finished;
+}
+
+void Lobby::start() {
+    
+    initWorld("lobby.tmx");
+    _player->setPosition(2.4f * 256.0f, 5.1f * 256);
+
+    InteractiveObject io({LoadTexture(RES_PATH"Interactive/purple_portal.png")});
+    io.setPosition({13.5f * 256.0f, 5.5f * 256.0f});
+    io.scale(0.2f, 0.2f);
+
+    _interactiv_objects.push_back(io);
+    
+
+}
+
+void Dogrld::start() {
+    
+    initWorld("dog_world.tmx");
+    _player->setPosition(3.0f * 256.0f, 17.0f * 256);
+
+    InteractiveObject io({LoadTexture(RES_PATH"Interactive/purple_portal.png")});
+    io.setPosition({13.5f * 256.0f, 5.5f * 256.0f});
+    io.scale(0.2f, 0.2f);
+
+    _interactiv_objects.push_back(io);
+    
+
 }
