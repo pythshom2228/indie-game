@@ -9,7 +9,7 @@
 #include "player.hpp"
 #include "tile.hpp"
 #include "grid.hpp"
-#include "interactivable.hpp"
+#include "npc.hpp"
 
 class World {
 public:
@@ -31,6 +31,7 @@ public:
     
     void addEntity(const Entity & entity);
     void addInteractiveObject(const InteractiveObject & interactive_object);
+    void addNPC(const NPC & nps);
 
     void removeEntity(const std::string & entity_name);
     void removeInteractiveObject(const std::string & entity_name);
@@ -52,6 +53,7 @@ public:
 protected:
     std::vector<std::unique_ptr<Entity>> _entities;
     std::vector<InteractiveObject> _interactiv_objects;
+    std::vector<NPC> _npcs;
     Player* _player;
 
     Grid _grid;
@@ -65,17 +67,11 @@ public:
     
     void start();
 
-    bool getgotoDogrld() const;
-
-private:
-    bool _gotoDogrld = false;
 };
 
 class Dogrld : public World {
 public:
     
     void start();
-
-private:
 
 };

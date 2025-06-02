@@ -7,8 +7,9 @@ Interactivable::Interactivable(float interactive_radius, const std::function<voi
 : _interactive_radius(interactive_radius), _interact(interact)  {}
 
 void Interactivable::onInteract() const {
-    if(_interact)
+    if(_interact) {
         _interact();
+    }
 }
 
 float Interactivable::getInteractiveRadius()                 const { return _interactive_radius; }

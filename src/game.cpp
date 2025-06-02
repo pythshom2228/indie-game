@@ -24,8 +24,8 @@ void Game::start() {
     _world->start();
 
     while(!WindowShouldClose() && _isRunning) {
-        update();
         render();
+        update();
     }
 
     CloseWindow();
@@ -37,14 +37,14 @@ void Game::update() {
         _menu->update();
     }
     else {
-
+        
         if (_world->isFinished()) {
             _world = std::make_unique<Dogrld>();
             _world->setPlayer(&_player);
             _world->start();
         }
         _world->update();
-
+        
         playerHandleInput();
         updateCamera();
 
