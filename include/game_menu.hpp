@@ -2,6 +2,7 @@
 
 #include <raylib.h>
 #include <UI/ui_element.hpp>
+#include <Animation/animation.hpp>
 
 class Game;
 
@@ -33,6 +34,8 @@ public:
 
 private:
 
+    void playStoryAnim();
+
     bool& _isGameRunning;
 
     Music _background_music;
@@ -51,6 +54,7 @@ private:
     } _arrow;
     
     Texture2D _background;
+    Texture2D texture_img;
 };
 
 

@@ -1,5 +1,6 @@
 #include "game_menu.hpp"
 #include "constants.hpp"
+#include <iostream>
 
 GameMenu::GameMenu() : _is_active(true) {}
 
@@ -12,8 +13,7 @@ bool GameMenu::isActive() {
 StartMenu::StartMenu(bool& isGameRunning) 
 :   _isGameRunning(isGameRunning), 
     _start_button(Vector2 {0,0}, LoadTexture(RES_PATH"UI/StartButton.png")),
-    _exit_button(Vector2 {0,0}, LoadTexture(RES_PATH"UI/ExitButton.png"))
-    /*tex_story_anim(LoadTextureFromImage("UI/story.gif"))*/ {
+    _exit_button(Vector2 {0,0}, LoadTexture(RES_PATH"UI/ExitButton.png")) {
 
     Sound button_hover_sound = LoadSound(RES_PATH"UI/ButtonPressed.mp3");
     
@@ -21,6 +21,7 @@ StartMenu::StartMenu(bool& isGameRunning)
         KEY_ENTER,
         [this]() {
             this->_is_active = false;
+            this->playStoryAnim();
         }
     );
 
@@ -65,6 +66,7 @@ StartMenu::StartMenu(bool& isGameRunning)
     _arrow.x_pos = _start_button.getPosition().x - _arrow.texture.width;
     _arrow.y_pos = _start_button.getPosition().y;
     
+    
 
     // //StartMenuBackgroundMusic.mp3
     // _background_music = LoadMusicStream(RES_PATH"UI/StartMenuBackgroundMusic.mp3");
@@ -97,6 +99,7 @@ void StartMenu::render() const {
     _exit_button.render();
     DrawTexture(_arrow.texture,_arrow.x_pos,_arrow.y_pos,WHITE);
 
+
 }
 
 StartMenu::~StartMenu() {
@@ -113,4 +116,61 @@ void PauseMenu::update() {
 
 void PauseMenu::render() const {
     
+}
+
+void StartMenu::playStoryAnim() {
+
+    // int animFrames = 0;
+
+    // Image story_img = LoadImageAnim(RES_PATH"UI/story.gif", &animFrames);
+
+    // texture_img = Texture2D{LoadTextureFromImage(story_img)};
+
+    // NPatchInfo npatch = {
+    //     .source = Rectangle{0,0,texture_img.width,texture_img.height},
+    //     .left  = 0,             // Left border offset
+    //     .top   = 0,           // Top border offset
+    //     .right = 0,           // Right border offset
+    //     .bottom = 0,          // Bottom border offset
+    //     .layout = NPATCH_NINE_PATCH
+    // };
+
+
+    // unsigned int nextFrameDataOffset = 0;  // Current byte offset to next frame in image.data
+
+    // int currentAnimFrame = 0;       // Current animation frame to load and draw
+    // int frameDelay = 8;             // Frame delay to switch between animation frames
+    // int frameCounter = 0;           // General frames counter
+    // std::cout << "---------" << animFrames << "--------\n";
+    // int time = 0;
+    // while(time <= frameDelay * animFrames * 10) {
+    //     frameCounter++;
+    //     if (frameCounter >= frameDelay) {
+    //         // Move to next frame
+    //         currentAnimFrame++;
+
+    //         // Get memory offset position for next frame data in image.data
+    //         nextFrameDataOffset = story_img.width*story_img.height*4*currentAnimFrame;
+
+    //         // Update GPU texture data with next frame image data
+    //         // WARNING: Data size (frame size) and pixel format must match already created texture
+    //         UpdateTexture(texture_img, ((unsigned char *)story_img.data) + nextFrameDataOffset);
+
+    //         frameCounter = 0;
+    //     }
+    //     time++;
+
+
+    //     DrawTextureNPatch(
+    //             texture_img,
+    //             npatch,
+    //             Rectangle{0,0,GetScreenWidth(),GetScreenHeight()},
+    //             Vector2{0.0f,0.0f},
+    //             0,
+    //             WHITE
+    //         );
+            
+
+    // }
+
 }
