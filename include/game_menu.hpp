@@ -3,6 +3,7 @@
 #include <raylib.h>
 #include <UI/ui_element.hpp>
 #include <Animation/animation.hpp>
+#define STORY_TEXTURE_NUMBER 4
 
 class Game;
 
@@ -54,7 +55,7 @@ private:
     } _arrow;
     
     Texture2D _background;
-    Texture2D texture_img;
+    std::array<Texture2D,STORY_TEXTURE_NUMBER> _story_textures;
 };
 
 

@@ -35,7 +35,6 @@ void Game::start() {
 void Game::update() {
     if(_menu->isActive()) {
         _menu->update();
-        _menu->render();
     }
     else {
 

@@ -1,6 +1,7 @@
 #include "game_menu.hpp"
 #include "constants.hpp"
 #include <iostream>
+#define RGBA_BYTES_COUNT 4
 
 GameMenu::GameMenu() : _is_active(true) {}
 
@@ -119,58 +120,40 @@ void PauseMenu::render() const {
 }
 
 void StartMenu::playStoryAnim() {
+    
+    double frameTime = GetTime();
 
-    // int animFrames = 0;
+    const int frameDelay = 2;
 
-    // Image story_img = LoadImageAnim(RES_PATH"UI/story.gif", &animFrames);
+    for(int i = 0; i < _story_textures.size();i++) {
+        _story_textures[i] = LoadTexture(
+            (std::string(RES_PATH"StoryAnimation/texture") + std::to_string(i) + std::string(".jpg")).c_str()
+        );
+    }
 
-    // texture_img = Texture2D{LoadTextureFromImage(story_img)};
+    for(auto& texture : _story_textures) {
+        while(GetTime() - frameTime <= frameDelay) {
+            NPatchInfo npatch = {
+                .source = Rectangle{0,0, texture.width,texture.height},
+                .left  = 0,             // Left border offset
+                .top   = 0,           // Top border offset
+                .right = 0,           // Right border offset
+                .bottom = 0,          // Bottom border offset
+                .layout = NPATCH_NINE_PATCH
+            };
 
-    // NPatchInfo npatch = {
-    //     .source = Rectangle{0,0,texture_img.width,texture_img.height},
-    //     .left  = 0,             // Left border offset
-    //     .top   = 0,           // Top border offset
-    //     .right = 0,           // Right border offset
-    //     .bottom = 0,          // Bottom border offset
-    //     .layout = NPATCH_NINE_PATCH
-    // };
-
-
-    // unsigned int nextFrameDataOffset = 0;  // Current byte offset to next frame in image.data
-
-    // int currentAnimFrame = 0;       // Current animation frame to load and draw
-    // int frameDelay = 8;             // Frame delay to switch between animation frames
-    // int frameCounter = 0;           // General frames counter
-    // std::cout << "---------" << animFrames << "--------\n";
-    // int time = 0;
-    // while(time <= frameDelay * animFrames * 10) {
-    //     frameCounter++;
-    //     if (frameCounter >= frameDelay) {
-    //         // Move to next frame
-    //         currentAnimFrame++;
-
-    //         // Get memory offset position for next frame data in image.data
-    //         nextFrameDataOffset = story_img.width*story_img.height*4*currentAnimFrame;
-
-    //         // Update GPU texture data with next frame image data
-    //         // WARNING: Data size (frame size) and pixel format must match already created texture
-    //         UpdateTexture(texture_img, ((unsigned char *)story_img.data) + nextFrameDataOffset);
-
-    //         frameCounter = 0;
-    //     }
-    //     time++;
-
-
-    //     DrawTextureNPatch(
-    //             texture_img,
-    //             npatch,
-    //             Rectangle{0,0,GetScreenWidth(),GetScreenHeight()},
-    //             Vector2{0.0f,0.0f},
-    //             0,
-    //             WHITE
-    //         );
-            
-
-    // }
-
+            BeginDrawing();
+            DrawTextureNPatch(
+                    texture,
+                    npatch,
+                    Rectangle{0,0,GetScreenWidth(),GetScreenHeight()},
+                    Vector2{0.0f,0.0f},
+                    0,
+                    WHITE
+                );
+            EndDrawing();
+            if(IsKeyPressed(KEY_ESCAPE)) return;
+        }
+        frameTime = GetTime();
+    }
 }
