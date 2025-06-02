@@ -11,7 +11,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
 
 set(SOURCES 
     src/main.cpp
-    src/game.cpp
+    src/game.cpp    
     src/game_menu.cpp
     src/collidable.cpp
 

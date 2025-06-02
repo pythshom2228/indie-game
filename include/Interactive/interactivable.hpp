@@ -1,6 +1,6 @@
 #pragma once
 
-#include<functional>
+#include <functional>
 
 #include "raylib.h"
 #include "entity.hpp"
@@ -11,11 +11,9 @@ public:
 
     Interactivable(float interactive_radius = 100.0f, const std::function<void()> & iteract = nullptr);
 
-
     void onInteract() const;
 
     float getInteractiveRadius() const;
-
     const std::function<void()> & getInteract() const;
 
     void setIntaractiveRadius(float interactiveRadius);
@@ -28,7 +26,12 @@ protected:
 
 class InteractiveObject : public Entity, public Interactivable {
 public:
-    InteractiveObject(const std::array<Texture2D, DIRECTIONS_COUNT> & textures = {}, float _interactive_radius = 100.0f, const std::function<void()> & iteract = nullptr);
+
+    InteractiveObject(const std::array<Texture2D, DIRECTIONS_COUNT> & textures, float _interactive_radius = 100.0f);
+
+    InteractiveObject(const std::array<Texture2D, DIRECTIONS_COUNT> & textures, float _interactive_radius, const std::function<void()> & interact);
+
+    ~InteractiveObject() = default;
 
     bool isPointInRange(const Vector2 & point);
 

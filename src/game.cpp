@@ -21,16 +21,16 @@ void Game::start() {
 
     _world.initWorld("dog_world10.tmx");
 
-    InteractiveObject io;
+    // InteractiveObject io;
 
-    io.setInteract([]() -> void {
-        std::cout << "TOUCH DETECTED" << std::endl;
-        CloseWindow();
-    });
+    // io.setInteract([]() -> void {
+    //     std::cout << "TOUCH DETECTED" << std::endl;
+    //     CloseWindow();
+    // });
 
-    io.setPosition({3 * 256, 5 * 256});
+    // io.setPosition({3 * 256, 5 * 256});
 
-    _world.addInteractiveObject(io);
+    // _world.addInteractiveObject(io);
 
     _world.setPlayer(&_player);
     _player.setPosition(3 * 256, 3 * 256);

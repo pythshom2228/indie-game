@@ -1,16 +1,14 @@
-#include "interactivable.hpp"
-
+#include <Interactive/interactivable.hpp>
 #include <raymath.h>
 #include <iostream>
 
 
-
 Interactivable::Interactivable(float interactive_radius, const std::function<void()> & interact)
-
 : _interactive_radius(interactive_radius), _interact(interact)  {}
 
 void Interactivable::onInteract() const {
-    _interact();
+    if(_interact)
+        _interact();
 }
 
 float Interactivable::getInteractiveRadius()                 const { return _interactive_radius; }
@@ -25,6 +23,10 @@ void Interactivable::setIntaractiveRadius(float interactiveRadius) {
 void Interactivable::setInteract(const std::function<void()> & interact) {
     _interact = interact;
 }
+
+InteractiveObject::InteractiveObject(const std::array<Texture2D, DIRECTIONS_COUNT> & textures, float _interactive_radius)
+: Interactivable(_interactive_radius, nullptr), Entity(textures) {}
+
 
 InteractiveObject::InteractiveObject(const std::array<Texture2D, DIRECTIONS_COUNT> & textures, float interactive_radius, const std::function<void()> & interact)
 : Interactivable(_interactive_radius, interact), Entity(textures) {}

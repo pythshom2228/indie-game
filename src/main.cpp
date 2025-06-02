@@ -4,7 +4,8 @@
 
 int main(void) {
 
-    InitWindow(1280, 720, "Game");
+    
+    InitWindow(1280, 720, "Teleportation 3000");
     InitAudioDevice();
 
     

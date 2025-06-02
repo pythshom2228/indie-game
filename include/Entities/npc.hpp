@@ -1,16 +1,28 @@
 #pragma once
 #include "entity.hpp"
 #include <Interactive/interactivable.hpp>
+#include <vector>
+#include <string>
+#include <random>
 
 class NPC : public InteractiveObject {
 public:
-    
+
     NPC(const std::array<Texture2D,DIRECTIONS_COUNT>& textures, const Vector2 & position);
 
-    
-    void update();
+    NPC(const std::array<Texture2D,DIRECTIONS_COUNT>& textures, const Vector2 & position, std::function<void()> interact);
 
-    void render() const;
+    ~NPC() = default;
+
+    void setName(const std::string& name);
+
+    void addPhrase(const std::string& phrase);
+
+    void setPhrases(const std::vector<std::string>& phrases);
+
+    const std::string& sayRandomPhrase();
+
+    void update();
 
 protected:
 
@@ -18,4 +30,7 @@ protected:
 
     std::vector<std::string> _phrases;
 
+private:
+    std::mt19937 _mt{42};
+    std::uniform_int_distribution<size_t> _ds{0,_phrases.size()};
 };
