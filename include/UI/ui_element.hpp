@@ -2,7 +2,22 @@
 #include <raylib.h>
 #include <functional>
 
-class Button {
+class UIElement {
+public:
+    UIElement() = default; 
+
+    ~UIElement() = default;
+
+
+protected:
+    void draw();
+
+    NPatchInfo npatch;
+
+
+};
+
+class Button : public UIElement {
 private:
     using key_t = int;
 
@@ -10,9 +25,7 @@ public:
 
     Button(const Vector2& position, const Texture2D& texture);
 
-    Button(
-        const std::function<void()>& action_on_click, const std::function<void()>& action_hover,
-        const Vector2& position, const Texture2D& texture);
+    Button(const Vector2& position, const Texture2D& texture,const std::function<void()>& action_on_click, const std::function<void()>& action_hover);
 
     void update();
 

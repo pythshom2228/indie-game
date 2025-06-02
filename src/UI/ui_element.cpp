@@ -14,8 +14,8 @@ Button::Button(const Vector2& position, const Texture2D& texture)
  }
 
 Button::Button(
-        const std::function<void()>& action, const std::function<void()>& action_hover,
-        const Vector2& position, const Texture2D& texture) 
+        const Vector2& position, const Texture2D& texture,
+        const std::function<void()>& action, const std::function<void()>& action_hover) 
     : Button(position,texture) {
 
         this->_action_on_click.button = MOUSE_BUTTON_LEFT;

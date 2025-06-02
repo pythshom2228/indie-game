@@ -21,8 +21,8 @@ StartMenu::StartMenu(bool& isGameRunning)
     _start_button.setActionOnClick(
         KEY_ENTER,
         [this]() {
-            this->_is_active = false;
             this->playStoryAnim();
+            this->_is_active = false;
         }
     );
 
@@ -121,20 +121,20 @@ void PauseMenu::render() const {
 
 void StartMenu::playStoryAnim() {
     
+    bool is_skipped = false;
     double frameTime = GetTime();
-
     const int frameDelay = 2;
 
-    for(int i = 0; i < _story_textures.size();i++) {
+    for(size_t i = 0; i < _story_textures.size();i++) {
         _story_textures[i] = LoadTexture(
             (std::string(RES_PATH"StoryAnimation/texture") + std::to_string(i) + std::string(".jpg")).c_str()
         );
     }
 
-    for(auto& texture : _story_textures) {
+    for(size_t i = 0; i < _story_textures.size() && !is_skipped; i++) {
         while(GetTime() - frameTime <= frameDelay) {
             NPatchInfo npatch = {
-                .source = Rectangle{0,0, texture.width,texture.height},
+                .source = Rectangle{0,0, _story_textures[i].width,_story_textures[i].height},
                 .left  = 0,             // Left border offset
                 .top   = 0,           // Top border offset
                 .right = 0,           // Right border offset
@@ -144,7 +144,7 @@ void StartMenu::playStoryAnim() {
 
             BeginDrawing();
             DrawTextureNPatch(
-                    texture,
+                    _story_textures[i],
                     npatch,
                     Rectangle{0,0,GetScreenWidth(),GetScreenHeight()},
                     Vector2{0.0f,0.0f},
@@ -152,8 +152,13 @@ void StartMenu::playStoryAnim() {
                     WHITE
                 );
             EndDrawing();
-            if(IsKeyPressed(KEY_ESCAPE)) return;
+
+            if(IsKeyPressed(KEY_SPACE)) {
+                is_skipped = true;
+                break;
+            }
         }
+
         frameTime = GetTime();
     }
 }

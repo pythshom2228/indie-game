@@ -3,7 +3,7 @@ static bool isWASDDownKeysdown();
 #include <iostream>
 
 Player::Player() 
-: Entity(), _name("Renat") {
+: Entity(), _name("Shamil") {
     _velocity = 2.5f;
 
     scale(0.15f, 0.15f);
@@ -73,7 +73,7 @@ void Player::update() {
     updateAnimation();
 }
 
-static bool isWASDDownKeysdown() {
+bool Player::isWASDKeysdown() const {
     if (IsKeyDown(KEY_A))
         return true;
     else if (IsKeyDown(KEY_W))
@@ -95,7 +95,7 @@ void Player::render() const {
         (texture.height * _scale.y) / 2    // Центр по Y
     };
     
-    if(isWASDDownKeysdown()) {
+    if(isWASDKeysdown()) {
         switch (_rotation_state) {
             case RotationStates::Down:
                 _animation_component.draw(_position);
@@ -109,7 +109,7 @@ void Player::render() const {
                 _animation_component.draw(_position);
                 break;
             
-                case RotationStates::Left:
+            case RotationStates::Left:
                 _animation_component.draw(_position);
                 break;
             default:

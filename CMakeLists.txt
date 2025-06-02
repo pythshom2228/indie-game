@@ -1,9 +1,14 @@
 cmake_minimum_required(VERSION 3.20)
-project(Game)
+project(Teleportation_3000)
+
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 #set(CMAKE_CXX_FLAGS "-Wall -Wextra -Wpedantic")
+
+if(MINGW)
+    set(CMAKE_CXX_FLAGS "-static -mwindows")
+endif()
 
 if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE "Debug" CACHE STRING "Choose the type of build" FORCE)
