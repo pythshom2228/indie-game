@@ -129,7 +129,7 @@ const int& Grid::Proxy::operator[](int col) const {
 
 bool Grid::loadFromFile(const std::string & filename) {
     tmx::Map map;
-    
+
     if (!map.load(RES_PATH"worlds/" + filename)) {
         return false;
     }
@@ -202,8 +202,7 @@ bool Grid::loadFromFile(const std::string & filename) {
 
     const auto& tileset = map.getTilesets()[0];
     std::string tilesetPath = tileset.getImagePath();
-    
-    _tileset = LoadTexture(tilesetPath.c_str());
 
+    _tileset = LoadTexture(tilesetPath.c_str());
     return true;
 }
