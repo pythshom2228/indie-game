@@ -9,7 +9,7 @@ class Interactivable {
 public:
 
 
-    Interactivable(float interactive_radius = 100.0f, const std::function<void()> & iteract = nullptr);
+    Interactivable(float interactive_radius = 100.0f, const std::function<void()> & iteract = [](){});
 
     void onInteract() const;
 
@@ -21,7 +21,7 @@ public:
 
 protected:
     float _interactive_radius;
-    std::function<void()> _interact;
+    std::function<void()> _interact = [](){};
 };
 
 class InteractiveObject : public Entity, public Interactivable {

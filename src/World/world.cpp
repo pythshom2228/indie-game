@@ -34,13 +34,19 @@ void World::render() const
 
     _grid.render(Layer::Down);
     _player->render();
+    for (auto & npc : _npcs) {
+        npc.render();
+        DrawCircleV(npc.getPosition(), 10.0f, RED);
+        DrawCircleLinesV(npc.getPosition(), npc.getInteractiveRadius(), RED);
+    }
     _grid.render(Layer::Up);
-
+    
     for (auto & interactive_object : _interactiv_objects) {
         interactive_object.render();
         DrawCircleV(interactive_object.getPosition(), 10.0f, RED);
         DrawCircleLinesV(interactive_object.getPosition(), interactive_object.getInteractiveRadius(), RED);
     }
+
     
     //DrawText(TextFormat("X: %f, Y: %f", (_player->getPosition().x / 256.0f), (_player->getPosition().y / 256.0f)), _player->getPosition().x, _player->getPosition().y, 20, WHITE);
 }
@@ -55,6 +61,14 @@ void World::update() {
         }
     }
 
+    for (auto & npc : _npcs) {
+        if (npc.isPointInRange(_player->getPosition())) {
+            std::cout << "DETECTED" << std::endl;
+            npc.onInteract();
+        }
+        npc.update();
+    }
+
 }
 
 void World::reset() {
@@ -67,6 +81,10 @@ void World::addEntity(const Entity & entity) {
 
 void World::addInteractiveObject(const InteractiveObject &interactive_object) {
     _interactiv_objects.push_back(interactive_object);
+}
+
+void World::addNPC(const NPC &nps) {
+    _npcs.push_back(nps);
 }
 
 void World::removeEntity(const std::string & entity_name) {
@@ -101,10 +119,9 @@ void Lobby::start() {
     initWorld("lobby.tmx");
     _player->setPosition(2.4f * 256.0f, 5.1f * 256.0f);
 
-    InteractiveObject io({LoadTexture(RES_PATH"Interactive/purple_portal.png")});
+    InteractiveObject io({LoadTexture(RES_PATH"Interactive/purple_portal.png")}, 130.0f);
     io.setPosition({13.5f * 256.0f, 5.5f * 256.0f});
     io.scale(0.2f, 0.2f);
-    io.setIntaractiveRadius(130.0f);
 
     io.setInteract([this](){
         this->_is_finished = true;
@@ -113,9 +130,17 @@ void Lobby::start() {
     _interactiv_objects.push_back(io);
     
 
-}
+    NPC bob({LoadTexture(RES_PATH"Interactive/bob.png")}, {5.0f * 256.0f, 2.9f * 256.0f});
+    bob.setIntaractiveRadius(130.0f);
+    bob.scale(0.15f, 0.15f);
+    bob.setInteract([](){
+        DrawCircleV({5.0f * 256.0f, 2.9f * 256.0f}, 200.0f, GREEN);
+    });
 
-bool Lobby::getgotoDogrld() const { return _gotoDogrld; }
+    _npcs.push_back(bob);
+
+
+}
 
 void Dogrld::start() {
 
