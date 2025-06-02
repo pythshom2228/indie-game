@@ -36,7 +36,7 @@ protected:
     void initHitbox();
 
     std::array<Texture2D, DIRECTIONS_COUNT> _textures;
-    RotationStates _rotation_state;
+    RotationStates _rotation_state = RotationStates::Up;
 
     Vector2 _position;
     Vector2 _scale = {1.0f, 1.0f};

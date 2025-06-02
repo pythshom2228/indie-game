@@ -11,7 +11,6 @@
 #include "grid.hpp"
 #include "interactivable.hpp"
 
-
 class World {
 public:
     
@@ -27,7 +26,7 @@ public:
 
     void render() const;
     void update();
-
+    virtual void start() = 0;
     void reset();
     
     void addEntity(const Entity & entity);
@@ -48,7 +47,9 @@ public:
     bool isColidable(int x, int y) const;
     bool isFinished() const;
     
-private:
+    ~World() = default;
+
+protected:
     std::vector<std::unique_ptr<Entity>> _entities;
     std::vector<InteractiveObject> _interactiv_objects;
     Player* _player;
@@ -57,4 +58,22 @@ private:
 
     bool _is_finished;
     std::string _world_name;
+};
+
+class Lobby : public World {
+public:
+    
+    void start();
+
+private:
+
+};
+
+class Dogrld : public World {
+public:
+    
+    void start();
+
+private:
+
 };

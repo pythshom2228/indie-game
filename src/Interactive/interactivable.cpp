@@ -32,10 +32,7 @@ InteractiveObject::InteractiveObject(const std::array<Texture2D, DIRECTIONS_COUN
 : Interactivable(_interactive_radius, interact), Entity(textures) {}
 
 bool InteractiveObject::isPointInRange(const Vector2 & point) {
-
-    std::cout << "WHAAAAAAAAAAAAAAAAT\n";
-
-
+    
     Vector2 direction = {
         point.x - _position.x,
         point.y - _position.y
