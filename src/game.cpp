@@ -18,6 +18,7 @@ Game::Game()
 
 void Game::start() {
 
+    
 
     _world.initWorld("dog_world10.tmx");
 
