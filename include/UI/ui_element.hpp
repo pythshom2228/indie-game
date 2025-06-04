@@ -14,6 +14,8 @@ public:
 
 protected:
 
+    void draw();
+
     NPatchInfo _npatch;
 
     Vector2 _position;
