@@ -1,7 +1,7 @@
 #pragma once
 
 #include <raylib.h>
-#include <UI/ui_element.hpp>
+#include <UI/button.hpp>
 #include <Animation/animation.hpp>
 #define STORY_TEXTURE_NUMBER 4
 

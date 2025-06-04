@@ -14,8 +14,8 @@ bool GameMenu::isActive() {
 
 StartMenu::StartMenu(bool& isGameRunning) 
 :   _isGameRunning(isGameRunning), 
-    _start_button(Vector2 {0,0}, LoadTexture(RES_PATH"UI/StartButton.png")),
-    _exit_button(Vector2 {0,0}, LoadTexture(RES_PATH"UI/ExitButton.png")) {
+    _start_button(Vector2 {0,0},std::make_shared<Texture2D>(LoadTexture(RES_PATH"UI/StartButton.png"))),
+    _exit_button(Vector2 {0,0}, std::make_shared<Texture2D>(LoadTexture(RES_PATH"UI/ExitButton.png"))) {
 
     Sound button_hover_sound = LoadSound(RES_PATH"UI/ButtonPressed.mp3");
     

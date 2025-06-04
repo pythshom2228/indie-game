@@ -1,66 +1,25 @@
 #pragma once
 #include <raylib.h>
 #include <functional>
+#include <memory>
 
 class UIElement {
 public:
-    UIElement() = default; 
+
+    UIElement(const Vector2& position, const Vector2& size, const std::shared_ptr<Texture2D>& texture); 
 
     ~UIElement() = default;
 
+    virtual void render() const = 0;
 
 protected:
-    void draw();
 
-    NPatchInfo npatch;
+    NPatchInfo _npatch;
 
+    Vector2 _position;
 
-};
+    Vector2 _size;
 
-class Button : public UIElement {
-private:
-    using key_t = int;
+    std::shared_ptr<Texture2D> _texture;
 
-public:
-
-    Button(const Vector2& position, const Texture2D& texture);
-
-    Button(const Vector2& position, const Texture2D& texture,const std::function<void()>& action_on_click, const std::function<void()>& action_hover);
-
-    void update();
-
-    void render() const;
-
-    void setSelection(const std::function<bool()>& selection, const std::function<void()>& action_hover);
-    void setActionOnClick(key_t button, const std::function<void()>& action_on_click);
-    
-    void setPosition(const Vector2& position);
-    void setPosition(float x, float y);
-
-    Vector2 getPosition() const;
-    float getWidth() const;
-    float getHeight() const;
-
-    bool isSelected() const;
-
-    const std::function<bool()>& getButtonSelection() const;
-
-
-private:
-
-    bool _isSelected = false;
-
-    Color _color_state = GRAY;
-
-    std::function<bool()> _button_selection;
-    std::function<void()> _action_hover;
-
-    struct {
-        key_t button;
-        std::function<void()> action;
-
-    } _action_on_click;
-
-    Rectangle _box;
-    Texture2D _texture;
 };
